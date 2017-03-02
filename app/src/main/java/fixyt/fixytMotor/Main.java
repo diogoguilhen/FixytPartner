@@ -13,7 +13,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth firebaseAuth;
     private Button logOut;
     private Button perfilUser;
-    private Button agendarServico;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +29,11 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
 
         logOut = (Button) findViewById(R.id.botaoLogout);
         perfilUser = (Button) findViewById(R.id.botaoPerfil);
-        agendarServico = (Button) findViewById(R.id.scheduleService);
+
 
         logOut.setOnClickListener(this);
         perfilUser.setOnClickListener(this);
-        agendarServico.setOnClickListener(this);
+
     }
 
     @Override
@@ -47,8 +47,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
             finish();
             startActivity(new Intent(this, Perfil.class));
         }
-        if(v == agendarServico){
-            startActivity(new Intent(this, Schedule.class));
-        }
+
     }
 }
