@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="fixyt.fixytMotor">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="FixyT Partner"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:name=".FireApp">
+        <activity android:name=".PreLogin">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Login" />
+        <activity android:name=".Registrar_1" />
+        <activity android:name=".Registrar_2" />
+        <activity android:name=".Registrar_3" />
+        <activity android:name=".Schedule" />
+        <activity android:name=".Perfil" />
+        <activity android:name=".Main"/>
+
+    </application>
+
+</manifest>
