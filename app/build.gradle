@@ -11,7 +11,7 @@ android {
         exclude 'META-INF/NOTICE.txt'
     }
     defaultConfig {
-        applicationId "fixyt.fixyt"
+        applicationId "fixyt.fixytMotor"
         minSdkVersion 15
         targetSdkVersion 24
         versionCode 1
