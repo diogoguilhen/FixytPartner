@@ -3,7 +3,7 @@ package fixyt.fixytMotor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class CadastroMotorista implements Parcelable{
+public class CadastroMecanico implements Parcelable{
 
     // Tipo String
     private String nome;
@@ -23,23 +23,18 @@ public class CadastroMotorista implements Parcelable{
     private String pais;
     private String dataNascimento;
 
-    // Precisa criar um tipo de cadastro de Veiculo.
-    private String veiculoTipo;
-    private String veiculoMarca;
-    private String veiculoModelo;
-    private String veiculoAnoFabricacao;
-    private String veiculoAnoModelo;
-    private String veiculoPlaca;
-    private String veiculoRenavam;
-    private String veiculoKilometragem;
-    private String veiculoCor;
+    // Cadastro particular do Perfil Mecanico
+    private String perfilTipo;
+    private String tipoServicoEmergencial;
+    private String tipoServicoAgendado;
 
-    public CadastroMotorista() {
+
+    public CadastroMecanico() {
         super();
     }
 
     // Utilizando objetos como parcelável
-    public CadastroMotorista(Parcel parcel){
+    public CadastroMecanico(Parcel parcel){
         //Sobre o motorista
         this.nome=parcel.readString();
         this.sobrenome=parcel.readString();
@@ -59,16 +54,8 @@ public class CadastroMotorista implements Parcelable{
         this.dataNascimento=parcel.readString();
 
         //Sobre o veiculo do motorista
-        this.veiculoTipo=parcel.readString();
-        this.veiculoMarca=parcel.readString();
-        this.veiculoModelo=parcel.readString();
-        this.veiculoAnoFabricacao=parcel.readString();
-        this.veiculoAnoModelo=parcel.readString();
-        this.veiculoPlaca=parcel.readString();
-        this.veiculoRenavam=parcel.readString();
-        this.veiculoKilometragem=parcel.readString();
-        this.veiculoCor=parcel.readString();
-    }
+        this.perfilTipo=parcel.readString();
+}
 
     //Metodo de descrição de conteudo do Parcelable
     @Override
@@ -97,27 +84,20 @@ public class CadastroMotorista implements Parcelable{
         parcel.writeString(this.pais);
         parcel.writeString(this.dataNascimento);
 
-        //Sobre o veiculo do motorista
-        parcel.writeString(this.veiculoTipo);
-        parcel.writeString(this.veiculoMarca);
-        parcel.writeString(this.veiculoModelo);
-        parcel.writeString(this.veiculoAnoFabricacao);
-        parcel.writeString(this.veiculoAnoModelo);
-        parcel.writeString(this.veiculoPlaca);
-        parcel.writeString(this.veiculoRenavam);
-        parcel.writeString(this.veiculoKilometragem);
-        parcel.writeString(this.veiculoCor);
+        //Sobre as informações do Mecanico
+        parcel.writeString(this.perfilTipo);
+
     }
 
-    public static final Creator<CadastroMotorista> CREATOR=new Creator<CadastroMotorista>() {
+    public static final Creator<CadastroMecanico> CREATOR=new Creator<CadastroMecanico>() {
         @Override
-        public CadastroMotorista createFromParcel(Parcel source) {
-            return new CadastroMotorista(source);
+        public CadastroMecanico createFromParcel(Parcel source) {
+            return new CadastroMecanico(source);
         }
 
         @Override
-        public CadastroMotorista[] newArray(int size) {
-            return new CadastroMotorista[size];
+        public CadastroMecanico[] newArray(int size) {
+            return new CadastroMecanico[size];
         }
     };
 
@@ -233,84 +213,12 @@ public class CadastroMotorista implements Parcelable{
         this.cidade = cidade;
     }
 
-    public String getPais() {
-        return pais;
+    public String getPerfilTipo() {
+        return perfilTipo;
     }
 
-    public void setPais(String pais) {
-        this.pais = pais;
-    }
-
-    public String getVeiculoTipo() {
-        return veiculoTipo;
-    }
-
-    public void setVeiculoTipo(String veiculoTipo) {
-        this.veiculoTipo = veiculoTipo;
-    }
-
-    public String getVeiculoMarca() {
-        return veiculoMarca;
-    }
-
-    public void setVeiculoMarca(String veiculoMarca) {
-        this.veiculoMarca = veiculoMarca;
-    }
-
-    public String getVeiculoModelo() {
-        return veiculoModelo;
-    }
-
-    public void setVeiculoModelo(String veiculoModelo) {
-        this.veiculoModelo = veiculoModelo;
-    }
-
-    public String getVeiculoAnoFabricacao() {
-        return veiculoAnoFabricacao;
-    }
-
-    public void setVeiculoAnoFabricacao(String veiculoAnoFabricacao) {
-        this.veiculoAnoFabricacao = veiculoAnoFabricacao;
-    }
-
-    public String getVeiculoAnoModelo() {
-        return veiculoAnoModelo;
-    }
-
-    public void setVeiculoAnoModelo(String veiculoAnoModelo) {
-        this.veiculoAnoModelo = veiculoAnoModelo;
-    }
-
-    public String getVeiculoPlaca() {
-        return veiculoPlaca;
-    }
-
-    public void setVeiculoPlaca(String veiculoPlaca) {
-        this.veiculoPlaca = veiculoPlaca;
-    }
-
-    public String getVeiculoRenavam() {
-        return veiculoRenavam;
-    }
-
-    public void setVeiculoRenavam(String veiculoRenavam) {
-        this.veiculoRenavam = veiculoRenavam;
-    }
-
-    public String getVeiculoKilometragem() {
-        return veiculoKilometragem;
-    }
-
-    public void setVeiculoKilometragem(String veiculoKilometragem) {
-        this.veiculoKilometragem = veiculoKilometragem;
-    }
-
-    public String getVeiculoCor() {
-        return veiculoCor;
-    }
-
-    public void setVeiculoCor(String veiculoCor) {
-        this.veiculoCor = veiculoCor;
+    public void setPerfilTipo(String perfilTipo) {
+        this.perfilTipo = perfilTipo;
     }
 
     public String getDataNascimento() {

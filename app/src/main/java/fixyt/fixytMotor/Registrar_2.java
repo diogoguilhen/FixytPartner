@@ -112,19 +112,19 @@ public class Registrar_2 extends AppCompatActivity implements View.OnClickListen
     private void registrar2() {
 
         //Recebendo cadastro da tela Registrar_1
-        CadastroMotorista cadastroMotorista=(CadastroMotorista)getIntent().getParcelableExtra("cadastro");
+        CadastroMecanico cadastroMecanico =(CadastroMecanico)getIntent().getParcelableExtra("cadastro");
 
         //Apropriando os valores aos campos seguintes.
-        cadastroMotorista.setCpf(campoCpf.getText().toString().trim());
-        cadastroMotorista.setRg(campoRg.getText().toString().trim());
-        cadastroMotorista.setDataNascimento(campoDataNascimento.getText().toString().trim());
-        cadastroMotorista.setSexo(campoSexo.getSelectedItem().toString().trim());
-        cadastroMotorista.setTpLogradouro(campoTpLogradouro.getSelectedItem().toString().trim());
-        cadastroMotorista.setEndereco(campoEndereco.getText().toString().trim());
-        cadastroMotorista.setCep(campoCep.getText().toString().trim());
-        cadastroMotorista.setBairro(campoBairro.getText().toString().trim());
-        cadastroMotorista.setUf(menuEstado.getSelectedItem().toString().trim());
-        cadastroMotorista.setCidade(campoCidade.getText().toString().trim());
+        cadastroMecanico.setCpf(campoCpf.getText().toString().trim());
+        cadastroMecanico.setRg(campoRg.getText().toString().trim());
+        cadastroMecanico.setDataNascimento(campoDataNascimento.getText().toString().trim());
+        cadastroMecanico.setSexo(campoSexo.getSelectedItem().toString().trim());
+        cadastroMecanico.setTpLogradouro(campoTpLogradouro.getSelectedItem().toString().trim());
+        cadastroMecanico.setEndereco(campoEndereco.getText().toString().trim());
+        cadastroMecanico.setCep(campoCep.getText().toString().trim());
+        cadastroMecanico.setBairro(campoBairro.getText().toString().trim());
+        cadastroMecanico.setUf(menuEstado.getSelectedItem().toString().trim());
+        cadastroMecanico.setCidade(campoCidade.getText().toString().trim());
 
         //Retirar mascaras para salvamento no banco de dados (incluindo Cpf para validação no frontend)
         String CPF = campoCpf.getText().toString().trim().replaceAll("[.-]", "");
@@ -193,7 +193,7 @@ public class Registrar_2 extends AppCompatActivity implements View.OnClickListen
 
         //Passando dados para a tela REGISTRAR 3
         Intent intentReg2 = new Intent(Registrar_2.this, Registrar_3.class);
-        intentReg2.putExtra("cadastro", cadastroMotorista);
+        intentReg2.putExtra("cadastro", cadastroMecanico);
         startActivity(intentReg2);
         dialogoProgresso.dismiss();
 

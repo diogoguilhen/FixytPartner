@@ -104,18 +104,18 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
     private void registrar3(){
 
         //Recebendo cadastro da tela Registrar_2
-        CadastroMotorista cadastroMotorista=(CadastroMotorista)getIntent().getParcelableExtra("cadastro");
+        CadastroMecanico cadastroMecanico =(CadastroMecanico)getIntent().getParcelableExtra("cadastro");
 
         //Apropriando os valores aos campos seguintes.
-        cadastroMotorista.setVeiculoTipo(campoTpVeiculo.getSelectedItem().toString().trim());
-        cadastroMotorista.setVeiculoMarca(campoMarcaVeiculo.getSelectedItem().toString().trim());
-        cadastroMotorista.setVeiculoModelo(campoModeloVeiculo.getText().toString().trim());
-        cadastroMotorista.setVeiculoAnoFabricacao(campoAnoFabVeiculo.getSelectedItem().toString().trim());
-        cadastroMotorista.setVeiculoAnoModelo(campoAnoModVeiculo.getSelectedItem().toString().trim());
-        cadastroMotorista.setVeiculoPlaca(campoPlacaVeiculo.getText().toString().trim());
-        cadastroMotorista.setVeiculoRenavam(campoRenavam.getText().toString().trim());
-        cadastroMotorista.setVeiculoKilometragem(campoKmVeiculo.getText().toString().trim());
-        cadastroMotorista.setVeiculoCor(campoCorVeiculo.getText().toString().trim());
+        cadastroMecanico.setVeiculoTipo(campoTpVeiculo.getSelectedItem().toString().trim());
+        cadastroMecanico.setVeiculoMarca(campoMarcaVeiculo.getSelectedItem().toString().trim());
+        cadastroMecanico.setVeiculoModelo(campoModeloVeiculo.getText().toString().trim());
+        cadastroMecanico.setVeiculoAnoFabricacao(campoAnoFabVeiculo.getSelectedItem().toString().trim());
+        cadastroMecanico.setVeiculoAnoModelo(campoAnoModVeiculo.getSelectedItem().toString().trim());
+        cadastroMecanico.setVeiculoPlaca(campoPlacaVeiculo.getText().toString().trim());
+        cadastroMecanico.setVeiculoRenavam(campoRenavam.getText().toString().trim());
+        cadastroMecanico.setVeiculoKilometragem(campoKmVeiculo.getText().toString().trim());
+        cadastroMecanico.setVeiculoCor(campoCorVeiculo.getText().toString().trim());
 
         String tipoVeiculo = campoTpVeiculo.getSelectedItem().toString().trim();
         String marcaVeiculo = campoMarcaVeiculo.getSelectedItem().toString().trim();
@@ -138,14 +138,14 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
         /*dialogoProgresso.setMessage("Registrando Usuário...Aguarde...");
         dialogoProgresso.show();*/
 
-        dialogoProgresso.setMessage("Tela 1: " +  cadastroMotorista.getNome() + " " + cadastroMotorista.getSobrenome() + " " + cadastroMotorista.getTelefone() + " "
-                + cadastroMotorista.getEmail() + " " + cadastroMotorista.getSenha() + " Tela 2: " + cadastroMotorista.getCpf() + " " + cadastroMotorista.getRg() + " " + cadastroMotorista.getDataNascimento() + " " +
-                cadastroMotorista.getSexo() + " " + cadastroMotorista.getTpLogradouro() + " " + cadastroMotorista.getEndereco() + " " + cadastroMotorista.getCep() + " " + cadastroMotorista.getBairro() + " " + cadastroMotorista.getUf() + " " + cadastroMotorista.getCidade() +
+        dialogoProgresso.setMessage("Tela 1: " +  cadastroMecanico.getNome() + " " + cadastroMecanico.getSobrenome() + " " + cadastroMecanico.getTelefone() + " "
+                + cadastroMecanico.getEmail() + " " + cadastroMecanico.getSenha() + " Tela 2: " + cadastroMecanico.getCpf() + " " + cadastroMecanico.getRg() + " " + cadastroMecanico.getDataNascimento() + " " +
+                cadastroMecanico.getSexo() + " " + cadastroMecanico.getTpLogradouro() + " " + cadastroMecanico.getEndereco() + " " + cadastroMecanico.getCep() + " " + cadastroMecanico.getBairro() + " " + cadastroMecanico.getUf() + " " + cadastroMecanico.getCidade() +
                 " Tela 3: " + tipoVeiculo + " " + marcaVeiculo + " " + modeloVeiculo + " " + anoFabVeiculo + " " + anoModVeiculo + " " + placaVeiculo + " " +
                 renavamVeiculo + " " + kmVeiculo + " " + corVeiculo);
         dialogoProgresso.show();
 
-        /*firebasAuth.createUserWithEmailAndPassword(cadastroMotorista.getEmail(),cadastroMotorista.getSenha())
+        /*firebasAuth.createUserWithEmailAndPassword(cadastroMecanico.getEmail(),cadastroMecanico.getSenha())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

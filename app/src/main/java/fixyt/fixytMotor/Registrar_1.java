@@ -28,16 +28,12 @@ public class Registrar_1 extends AppCompatActivity implements View.OnClickListen
     private Button botaoProximo1;
     private EditText nome;
     private EditText sobrenome;
-    private EditText pais;
     private EditText telefone;
     private EditText email;
     private EditText confirmaSenha;
     private EditText digSenha;
     private ProgressDialog dialogoProgresso;
-    private CadastroMotorista cadastroMotorista;
-
-    private Spinner spinnerPais;
-    private ArrayAdapter adaptador;
+    private CadastroMecanico cadastroMecanico;
 
     // Declarar API Firabase Auth
     private FirebaseAuth firebasAuth;
@@ -79,39 +75,11 @@ public class Registrar_1 extends AppCompatActivity implements View.OnClickListen
 
         dialogoProgresso = new ProgressDialog(this);
 
-        //Implementação do Spinner de Pais
-        spinnerPais = (Spinner) findViewById(R.id.spinnerPais);
-        adaptador = ArrayAdapter.createFromResource(this, R.array.Paises, android.R.layout.simple_spinner_item);
-        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerPais.setAdapter(adaptador);
-
         botaoProximo1 = (Button) findViewById(R.id.botaoProximo1);
         nome = (EditText) findViewById(R.id.campoNome);
         sobrenome = (EditText) findViewById(R.id.campoSobrenome);
         telefone = (EditText) findViewById(R.id.campoTelefone);
         email = (EditText) findViewById(R.id.campoEmail);
-        email.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(TextUtils.isEmpty(email.getText().toString())){
-                    email.setError( "Digite um email!" );
-                }
-                if((email.getText().toString()).equals(emailBd)){
-                    email.setError( "Email Já existe! Digite outro!");
-                }
-
-            }
-        });
 
         //Apropriando os valores dos EditText para os STRINGS do objeto CADASTRO.
 
@@ -134,19 +102,18 @@ public class Registrar_1 extends AppCompatActivity implements View.OnClickListen
     }
 
     private void registrar1(){
-        cadastroMotorista = new CadastroMotorista();
-        cadastroMotorista.setNome(nome.getText().toString().trim());
-        cadastroMotorista.setSobrenome(sobrenome.getText().toString().trim());
-        cadastroMotorista.setPais(spinnerPais.getSelectedItem().toString().trim());
-        cadastroMotorista.setTelefone(telefone.getText().toString().trim());
-        cadastroMotorista.setEmail(email.getText().toString().trim());
-        cadastroMotorista.setSenha(digSenha.getText().toString().trim());
+        cadastroMecanico = new CadastroMecanico();
+        cadastroMecanico.setNome(nome.getText().toString().trim());
+        cadastroMecanico.setSobrenome(sobrenome.getText().toString().trim());
+        cadastroMecanico.setTelefone(telefone.getText().toString().trim());
+        cadastroMecanico.setEmail(email.getText().toString().trim());
+        cadastroMecanico.setSenha(digSenha.getText().toString().trim());
 
-        String email = cadastroMotorista.getEmail().trim();
-        String senha = cadastroMotorista.getSenha().trim();
-        String nome = cadastroMotorista.getNome().trim();
-        String sobrenome = cadastroMotorista.getSobrenome().trim();
-        String telefone = cadastroMotorista.getTelefone().trim();
+        String email = cadastroMecanico.getEmail().trim();
+        String senha = cadastroMecanico.getSenha().trim();
+        String nome = cadastroMecanico.getNome().trim();
+        String sobrenome = cadastroMecanico.getSobrenome().trim();
+        String telefone = cadastroMecanico.getTelefone().trim();
         String ConfSen = confirmaSenha.getText().toString().trim();
         String tSenha = digSenha.getText().toString().trim();
 
@@ -180,12 +147,6 @@ public class Registrar_1 extends AppCompatActivity implements View.OnClickListen
             //parar a execução do código
             return;
         }
-        if(TextUtils.isEmpty(senha)){
-            //senha vazia
-            Toast.makeText(this, "Ingresse uma Senha!" , Toast.LENGTH_SHORT).show();
-            //parar a execução do código
-            return;
-        }
         if(!ConfSen.equals(tSenha)){
             //senha não está igual em ambos os campos
             Toast.makeText(this, "Verifique a confirmação de senha novamente!" , Toast.LENGTH_SHORT).show();
@@ -199,7 +160,7 @@ public class Registrar_1 extends AppCompatActivity implements View.OnClickListen
 
         //Passando dados para a tela REGISTRAR 2
         Intent intentReg1 = new Intent(Registrar_1.this, Registrar_2.class);
-        intentReg1.putExtra("cadastro", cadastroMotorista);
+        intentReg1.putExtra("cadastro", cadastroMecanico);
         startActivity(intentReg1);
         dialogoProgresso.dismiss();
     }

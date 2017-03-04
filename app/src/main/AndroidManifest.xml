@@ -22,6 +22,7 @@
         <activity android:name=".Registrar_2" />
         <activity android:name=".Registrar_3" />
         <activity android:name=".Perfil" />
+        <activity android:name=".Solagendamento"/>
         <activity android:name=".Main"/>
 
     </application>
