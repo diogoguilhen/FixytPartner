@@ -107,15 +107,6 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
         CadastroMecanico cadastroMecanico =(CadastroMecanico)getIntent().getParcelableExtra("cadastro");
 
         //Apropriando os valores aos campos seguintes.
-        cadastroMecanico.setVeiculoTipo(campoTpVeiculo.getSelectedItem().toString().trim());
-        cadastroMecanico.setVeiculoMarca(campoMarcaVeiculo.getSelectedItem().toString().trim());
-        cadastroMecanico.setVeiculoModelo(campoModeloVeiculo.getText().toString().trim());
-        cadastroMecanico.setVeiculoAnoFabricacao(campoAnoFabVeiculo.getSelectedItem().toString().trim());
-        cadastroMecanico.setVeiculoAnoModelo(campoAnoModVeiculo.getSelectedItem().toString().trim());
-        cadastroMecanico.setVeiculoPlaca(campoPlacaVeiculo.getText().toString().trim());
-        cadastroMecanico.setVeiculoRenavam(campoRenavam.getText().toString().trim());
-        cadastroMecanico.setVeiculoKilometragem(campoKmVeiculo.getText().toString().trim());
-        cadastroMecanico.setVeiculoCor(campoCorVeiculo.getText().toString().trim());
 
         String tipoVeiculo = campoTpVeiculo.getSelectedItem().toString().trim();
         String marcaVeiculo = campoMarcaVeiculo.getSelectedItem().toString().trim();

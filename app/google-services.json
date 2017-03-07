@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "336214230367-3os5bt1oa6o5pjrfl16b5annk44a7fci.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fixyt.fixytMotor",
+            "certificate_hash": "d228ca9226be018e03e33bd53fd32ffab59ad7fb"
+          }
+        },
+        {
           "client_id": "336214230367-k245l8plcrlpe6qm1so5an4i2k52oq81.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "336214230367-k245l8plcrlpe6qm1so5an4i2k52oq81.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
