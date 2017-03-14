@@ -79,12 +79,14 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
             String[] arrayCarroMoto = getResources().getStringArray(R.array.CarroMotoChecks);
             List<String> aCarroMoto = new ArrayList<>();
             Collections.addAll(aCarroMoto, arrayCarroMoto);
+            Checkboxes_CarroMoto.removeAllViewsInLayout();
+            Checkboxes_Guincho.removeAllViewsInLayout();
 
             for (int i = 0; i < aCarroMoto.size(); i++) {
                 checkbox = new CheckBox(this);
                 checkbox.setId(i);
                 checkbox.setText(aCarroMoto.get(i));
-                //checkbox.setOnClickListener(getOnClickDoSomething(checkbox));
+                //checkbox.setOnClickListener(captarCheckbox(checkbox));
                 Checkboxes_CarroMoto.addView(checkbox);
             }
         }
@@ -96,17 +98,22 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
             List<String> aGuincho = new ArrayList<>();
             Collections.addAll(aGuincho, arrayGuincho);
 
+            Checkboxes_CarroMoto.removeAllViewsInLayout();
+            Checkboxes_Guincho.removeAllViewsInLayout();
+
             for (int i = 0; i < aGuincho.size(); i++) {
                 checkbox = new CheckBox(this);
                 checkbox.setId(i);
                 checkbox.setText(aGuincho.get(i));
-                //checkbox.setOnClickListener(getOnClickDoSomething(checkbox));
+                //checkbox.setOnClickListener(captarCheckbox(checkbox));
                 Checkboxes_Guincho.addView(checkbox);
 
             }
         }
 
     }
+
+
 
     private void registrar3(){
 

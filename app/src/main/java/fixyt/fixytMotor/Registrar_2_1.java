@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -56,7 +57,12 @@ public class Registrar_2_1 extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         if (v == butNext){
             //completa o segundo passo do cadastro.
-            registrar2_1();
+            if(displayPhoto.getDrawable() == null){
+                Toast.makeText(this, "Tire foto da sua CNH antes de prosseguir!", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                registrar2_1();
+            }
         }
         if (v == butPhoto){
             // Carrega foto e guarda no storage (mostra na tela)
@@ -80,7 +86,7 @@ public class Registrar_2_1 extends AppCompatActivity implements View.OnClickList
             Bitmap photo = (Bitmap) extras.get("data");
             displayPhoto.setImageBitmap(photo);
 
-            StorageReference fixytRef = fireStorage.child("images/perfil.jpg");
+            StorageReference fixytRef = fireStorage.child("Mecanicos/Documentos/CNH/uidMecanico.jpg");
 
             displayPhoto.setDrawingCacheEnabled(true);
             displayPhoto.buildDrawingCache();
