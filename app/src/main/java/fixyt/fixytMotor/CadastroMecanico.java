@@ -27,6 +27,7 @@ public class CadastroMecanico implements Parcelable{
     private String perfilTipo;
     private String tipoServicoEmergencial;
     private String tipoServicoAgendado;
+    private String servicos;
 
 
     public CadastroMecanico() {
@@ -53,8 +54,9 @@ public class CadastroMecanico implements Parcelable{
         this.pais=parcel.readString();
         this.dataNascimento=parcel.readString();
 
-        //Sobre o veiculo do motorista
+        //Sobre o perfil do mecanico
         this.perfilTipo=parcel.readString();
+        this.servicos=parcel.readString();
 }
 
     //Metodo de descrição de conteudo do Parcelable
@@ -86,6 +88,7 @@ public class CadastroMecanico implements Parcelable{
 
         //Sobre as informações do Mecanico
         parcel.writeString(this.perfilTipo);
+        parcel.writeString(this.servicos);
 
     }
 
@@ -220,6 +223,15 @@ public class CadastroMecanico implements Parcelable{
     public void setPerfilTipo(String perfilTipo) {
         this.perfilTipo = perfilTipo;
     }
+
+    public String getServicos() {
+        return servicos;
+    }
+
+    public void setServicos(String servicos) {
+        this.servicos = servicos;
+    }
+
 
     public String getDataNascimento() {
         return dataNascimento;
