@@ -1,35 +1,35 @@
 {
   "project_info": {
-    "project_number": "336214230367",
-    "firebase_url": "https://fixytmotorista.firebaseio.com",
-    "project_id": "fixytmotorista",
-    "storage_bucket": "fixytmotorista.appspot.com"
+    "project_number": "122346724610",
+    "firebase_url": "https://fixyt-20066.firebaseio.com",
+    "project_id": "fixyt-20066",
+    "storage_bucket": "fixyt-20066.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:336214230367:android:b412c1d2edcdc693",
+        "mobilesdk_app_id": "1:122346724610:android:dcd3d967d28dab3e",
         "android_client_info": {
-          "package_name": "fixyt.fixytMotor"
+          "package_name": "fixyt.fixyt"
         }
       },
       "oauth_client": [
         {
-          "client_id": "336214230367-3os5bt1oa6o5pjrfl16b5annk44a7fci.apps.googleusercontent.com",
+          "client_id": "122346724610-dc8nfhff1c8o5ie8oq6lik7h1gp8j40c.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "fixyt.fixytMotor",
-            "certificate_hash": "d228ca9226be018e03e33bd53fd32ffab59ad7fb"
+            "package_name": "fixyt.fixyt",
+            "certificate_hash": "debdbf32692fec07ddca60d5a6de7cc813b860ea"
           }
         },
         {
-          "client_id": "336214230367-k245l8plcrlpe6qm1so5an4i2k52oq81.apps.googleusercontent.com",
+          "client_id": "122346724610-4oqq0f34oi65uai0adjr422jesvt14ol.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDzZlJKDjUh2IJVfCBBlvEZu2PMnAanWMs"
+          "current_key": "AIzaSyA_MDdL7bahiHFH3L_0eKTDDcaHMIyyOTI"
         }
       ],
       "services": {
@@ -40,7 +40,51 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "336214230367-k245l8plcrlpe6qm1so5an4i2k52oq81.apps.googleusercontent.com",
+              "client_id": "122346724610-4oqq0f34oi65uai0adjr422jesvt14ol.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122346724610:android:b412c1d2edcdc693",
+        "android_client_info": {
+          "package_name": "fixyt.fixytMotor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "122346724610-fkd47au00il2p41ln6dsleujh2qbdui4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fixyt.fixytMotor",
+            "certificate_hash": "debdbf32692fec07ddca60d5a6de7cc813b860ea"
+          }
+        },
+        {
+          "client_id": "122346724610-4oqq0f34oi65uai0adjr422jesvt14ol.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_MDdL7bahiHFH3L_0eKTDDcaHMIyyOTI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "122346724610-4oqq0f34oi65uai0adjr422jesvt14ol.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

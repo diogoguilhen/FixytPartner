@@ -2,6 +2,7 @@ package fixyt.fixytMotor;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,11 +16,20 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Map;
 
@@ -34,6 +44,7 @@ public class Registrar_1 extends AppCompatActivity implements View.OnClickListen
     private EditText digSenha;
     private ProgressDialog dialogoProgresso;
     private CadastroMecanico cadastroMecanico;
+    private static final String TAG = "Registrar_1";
 
     // Declarar API Firabase Auth
     private FirebaseAuth firebasAuth;
@@ -52,7 +63,7 @@ public class Registrar_1 extends AppCompatActivity implements View.OnClickListen
         //Chamando Firebase Auth
         firebasAuth = FirebaseAuth.getInstance();
         //Inicializando Base
-        mRef = new Firebase("https://fixyt-b2af0.firebaseio.com/");
+        mRef = new Firebase("https://fixyt-20066.firebaseio.com/");
 
         //atribuindo email do banco ao emailBd.
         mRef.addValueEventListener(new ValueEventListener() {
@@ -155,8 +166,61 @@ public class Registrar_1 extends AppCompatActivity implements View.OnClickListen
         }
         // Após validar que cadastro está OK um dialogo de progresso é mostrada
 
+
+
         dialogoProgresso.setMessage("Aguarde...");
         dialogoProgresso.show();
+
+        firebasAuth.createUserWithEmailAndPassword(cadastroMecanico.getEmail(), cadastroMecanico.getSenha())
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        //Se tarefa é completada
+                        if (task.isSuccessful()) {
+                            //usuario registrou corretamente
+
+                            finish();
+                            //inicializar cadastro de perfil
+                            startActivity(new Intent(getApplicationContext(), Main.class));
+                            //mostrar mensagem para usuario indicando sucesso
+                            Toast.makeText(Registrar_1.this, "Registrado com Sucesso.", Toast.LENGTH_SHORT).show();
+
+                            // CADASTRO NO FIREBASE E DEPOIS NO BANCO
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference criacaoMotorista = database.getReference("Partner");
+
+                            CadastroMecanico user = new CadastroMecanico (  cadastroMecanico.getNome(),
+                                    cadastroMecanico.getSobrenome(),
+                                    cadastroMecanico.getTelefone(),
+                                    cadastroMecanico.getEmail(),
+                                    cadastroMecanico.getSenha()
+                            );
+
+
+                            String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            criacaoMotorista.child(key).setValue(user);
+                            //FIM CADASTRO NO BANCO
+                            dialogoProgresso.dismiss();
+                        } else {
+                            try {
+                                throw task.getException();
+                            } catch (FirebaseAuthWeakPasswordException e) {
+                                Toast.makeText(Registrar_1.this, "A senha utilizada deve ter no mínimo 6 caracteres.", Toast.LENGTH_LONG).show();
+                                dialogoProgresso.dismiss();
+                            } catch (FirebaseAuthInvalidCredentialsException e) {
+                                Toast.makeText(Registrar_1.this, "As credenciais utilizadas expiraram. Contate o administrador", Toast.LENGTH_LONG).show();
+                                dialogoProgresso.dismiss();
+                            } catch (FirebaseAuthUserCollisionException e) {
+                                Toast.makeText(Registrar_1.this, "O usuário escolhido já está cadastrado. Escolha outro!", Toast.LENGTH_LONG).show();
+                                dialogoProgresso.dismiss();
+                            } catch (Exception e) {
+                                Log.e(TAG, e.getMessage());
+                            }
+                        }
+                    }
+                });
+
+
 
         //Passando dados para a tela REGISTRAR 2
         Intent intentReg1 = new Intent(Registrar_1.this, Registrar_2.class);

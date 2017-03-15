@@ -104,6 +104,70 @@ public class CadastroMecanico implements Parcelable{
         }
     };
 
+    // CONSTRUTORES DAS TELAS  E MECANICOS SALVANDO POR TELAS
+
+        // REGISTRAR 1
+    public CadastroMecanico(String nome, String sobrenome, String telefone, String email, String senha) {
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.telefone = telefone;
+        this.email = email;
+        this.senha = senha;
+    }
+
+    // REGISTRAR 2
+
+    public CadastroMecanico(String cpf, String rg, String sexo, String tpLogradouro, String endereco, String cep, String bairro, String uf, String cidade, String pais, String dataNascimento) {
+        this.cpf = cpf;
+        this.rg = rg;
+        this.sexo = sexo;
+        this.tpLogradouro = tpLogradouro;
+        this.endereco = endereco;
+        this.cep = cep;
+        this.bairro = bairro;
+        this.uf = uf;
+        this.cidade = cidade;
+        this.pais = pais;
+        this.dataNascimento = dataNascimento;
+    }
+
+    // REGISTRAR 3
+
+    public CadastroMecanico(String perfilTipo, String tipoServicoEmergencial, String tipoServicoAgendado, String servicos) {
+        this.perfilTipo = perfilTipo;
+        this.tipoServicoEmergencial = tipoServicoEmergencial;
+        this.tipoServicoAgendado = tipoServicoAgendado;
+        this.servicos = servicos;
+    }
+
+
+    /// FIM DOS CONSTRUTORES DAS TELAS E MECANICOS SALVANDO PORTELAS
+
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+
+    public String getTipoServicoEmergencial() {
+        return tipoServicoEmergencial;
+    }
+
+    public void setTipoServicoEmergencial(String tipoServicoEmergencial) {
+        this.tipoServicoEmergencial = tipoServicoEmergencial;
+    }
+
+    public String getTipoServicoAgendado() {
+        return tipoServicoAgendado;
+    }
+
+    public void setTipoServicoAgendado(String tipoServicoAgendado) {
+        this.tipoServicoAgendado = tipoServicoAgendado;
+    }
+
     public String getNome() {
         return nome;
     }

@@ -13,6 +13,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Registrar_2 extends AppCompatActivity implements View.OnClickListener  {
 
@@ -190,6 +192,34 @@ public class Registrar_2 extends AppCompatActivity implements View.OnClickListen
             //parar a execução do código
             return;
         }
+
+
+        // CADASTRO NO DATABASE
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference criacaoMotorista = database.getReference("Partner");
+
+        CadastroMecanico user = new CadastroMecanico (  cadastroMecanico.getCpf(),
+                                                        cadastroMecanico.getRg(),
+                                                        cadastroMecanico.getSexo(),
+                                                        cadastroMecanico.getTpLogradouro(),
+                                                        cadastroMecanico.getEndereco(),
+                                                        cadastroMecanico.getCep(),
+                                                        cadastroMecanico.getBairro(),
+                                                        cadastroMecanico.getUf(),
+                                                        cadastroMecanico.getCidade(),
+                                                        cadastroMecanico.getPais(),
+                                                        cadastroMecanico.getDataNascimento()
+        );
+
+
+        String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        criacaoMotorista.child(key).setValue(user);
+
+
+
+
+
 
         //Passando dados para a tela REGISTRAR 3
         Intent intentReg2 = new Intent(Registrar_2.this, Registrar_2_1.class);

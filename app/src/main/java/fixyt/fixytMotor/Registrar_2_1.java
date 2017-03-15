@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -34,13 +36,26 @@ public class Registrar_2_1 extends AppCompatActivity implements View.OnClickList
     private ProgressDialog dialogoProgresso;
 
     private StorageReference fireStorage;
+    private FirebaseAuth firebasAuth;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_2_1);
 
+
+        firebasAuth = FirebaseAuth.getInstance();
+     //  if(firebasAuth.getCurrentUser() != null){
+     //      //ir para tela main ou perfil
+     //      finish();
+     //      //inicializar tela principal
+     //      startActivity(new Intent(getApplicationContext(), Main.class));
+     //  }
+
         fireStorage = FirebaseStorage.getInstance().getReference();
+
 
         displayPhoto = (ImageView) findViewById(R.id.imgCamera);
         butPhoto = (Button) findViewById(R.id.botFoto);
@@ -86,7 +101,10 @@ public class Registrar_2_1 extends AppCompatActivity implements View.OnClickList
             Bitmap photo = (Bitmap) extras.get("data");
             displayPhoto.setImageBitmap(photo);
 
-            StorageReference fixytRef = fireStorage.child("Mecanicos/Documentos/CNH/uidMecanico.jpg");
+
+            String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+            StorageReference fixytRef = fireStorage.child("Mecanicos/Documentos/"+ key.toString() +"/cnhmecanico.jpg");
 
             displayPhoto.setDrawingCacheEnabled(true);
             displayPhoto.buildDrawingCache();
