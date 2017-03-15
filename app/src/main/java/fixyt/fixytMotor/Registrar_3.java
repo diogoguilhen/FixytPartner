@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,7 +29,7 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
     private Button botaoProximo3;
     private ImageView iconeGuincho, iconeCarroMoto;
     private String campoPerfilTipo;
-    private String campoServicos;
+    private String[] campoServicos;
     private CheckBox checkbox;
     private LinearLayout Checkboxes_Guincho, Checkboxes_CarroMoto;
 
@@ -39,6 +40,7 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
     // Declarar API Firabase Auth
     private FirebaseAuth firebasAuth;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +49,8 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
         //Chamando FIrebase Auth
         firebasAuth = FirebaseAuth.getInstance();
         dialogoProgresso = new ProgressDialog(this);
+
+
 
         Checkboxes_CarroMoto = (LinearLayout) findViewById(R.id.linearCheckCarroMoto);
         Checkboxes_Guincho = (LinearLayout) findViewById(R.id.linearCheckGuincho);
@@ -65,21 +69,29 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        if (v == botaoProximo3){
+        if (v == botaoProximo3) {
             //Finalizar Cadastro, salvar no banco de dados associando o User aos dados e ir para Main
-            if(campoPerfilTipo == "Carro/Moto"){
-                for(int i=0; i< Checkboxes_CarroMoto.getChildCount(); i++) {
+            if (campoPerfilTipo == "Carro/Moto") {
+                ArrayList<String> servicosSelecionados = new ArrayList<>();
+                for (int i = 0; i < Checkboxes_CarroMoto.getChildCount(); i++) {
                     View nextChild = Checkboxes_CarroMoto.getChildAt(i);
                     CheckBox check = (CheckBox) nextChild;
                     if (check.isChecked()) {
-                        campoServicos = campoServicos.concat(check.getText().toString()+" ");
+                        servicosSelecionados.add(check.getText().toString());
                     }
-
                 }
-
-                registrar3();
+                registrar3(servicosSelecionados);
+            } else {
+                ArrayList<String> servicosSelecionados = new ArrayList<>();
+                for (int i = 0; i < Checkboxes_Guincho.getChildCount(); i++) {
+                    View nextChild = Checkboxes_Guincho.getChildAt(i);
+                    CheckBox check = (CheckBox) nextChild;
+                    if (check.isChecked()) {
+                        servicosSelecionados.add(check.getText().toString());
+                    }
+                }
+                registrar3(servicosSelecionados);
             }
-            //registrar3();
         }
         if (v == iconeCarroMoto){
             campoPerfilTipo = "Carro/Moto";
@@ -114,7 +126,6 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
                 checkbox = new CheckBox(this);
                 checkbox.setId(i);
                 checkbox.setText(aGuincho.get(i));
-                //checkbox.setOnClickListener(captarCheckbox(checkbox));
                 Checkboxes_Guincho.addView(checkbox);
 
             }
@@ -123,14 +134,14 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
     }
 
 
-    private void registrar3(){
+    private void registrar3(ArrayList<String> arrayList){
 
         //Recebendo cadastro da tela Registrar_2_1
         CadastroMecanico cadastroMecanico =(CadastroMecanico)getIntent().getParcelableExtra("cadastro");
 
         //Apropriando os valores aos campos seguintes.
         cadastroMecanico.setPerfilTipo(campoPerfilTipo.trim());
-        cadastroMecanico.setServicos(campoServicos);
+        //cadastroMecanico.setServicos(campoServicos);
 
 
 
@@ -144,7 +155,7 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
 
         // Após validar que cadastro está OK um dialogo de progresso é mostrada
 
-        dialogoProgresso.setMessage("Perfil Selecionado: " + cadastroMecanico.getPerfilTipo() + "\n" + "Servicos: " + campoServicos);
+        dialogoProgresso.setMessage("Perfil Selecionado: " + cadastroMecanico.getPerfilTipo() + "\n" + "Servicos: " + arrayList.get(1) + ", " + arrayList.get(2));
         dialogoProgresso.show();
 
 
