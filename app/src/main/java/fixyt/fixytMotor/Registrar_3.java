@@ -40,6 +40,11 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
     // Declarar API Firabase Auth
     private FirebaseAuth firebasAuth;
 
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "Não é possivel voltar! Finalize o Cadastro!", Toast.LENGTH_SHORT).show();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
