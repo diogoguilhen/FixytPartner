@@ -45,7 +45,7 @@ public class Registrar_1 extends AppCompatActivity implements View.OnClickListen
     private ProgressDialog dialogoProgresso;
     private CadastroMecanico cadastroMecanico;
     private static final String TAG = "Registrar_1";
-
+    public String userKey;
     // Declarar API Firabase Auth
     private FirebaseAuth firebasAuth;
 
@@ -64,24 +64,6 @@ public class Registrar_1 extends AppCompatActivity implements View.OnClickListen
         firebasAuth = FirebaseAuth.getInstance();
         //Inicializando Base
         mRef = new Firebase("https://fixyt-20066.firebaseio.com/");
-
-        //atribuindo email do banco ao emailBd.
-        mRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Map<String, String> emailMap = dataSnapshot.getValue(Map.class);
-
-                String emailBd = emailMap.get("email");
-
-
-                Log.v("E_VALUE", "Email:" + emailMap);
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
 
 
         dialogoProgresso = new ProgressDialog(this);
@@ -177,17 +159,11 @@ public class Registrar_1 extends AppCompatActivity implements View.OnClickListen
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         //Se tarefa é completada
                         if (task.isSuccessful()) {
-                            //usuario registrou corretamente
-
-                            finish();
-                            //inicializar cadastro de perfil
-                            startActivity(new Intent(getApplicationContext(), Main.class));
-                            //mostrar mensagem para usuario indicando sucesso
-                            Toast.makeText(Registrar_1.this, "Registrado com Sucesso.", Toast.LENGTH_SHORT).show();
-
                             // CADASTRO NO FIREBASE E DEPOIS NO BANCO
+                            // PARECE QUE NÃO ESTA ROLANDO DENTRO DO IF DA AUTENTICAÇÃO E NEM AQUI FORA, AINDA PRECISO VERIFICAR.
+
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
-                            DatabaseReference criacaoMotorista = database.getReference("Partner");
+                            DatabaseReference criacaoPartner = database.getReference("Partner");
 
                             CadastroMecanico user = new CadastroMecanico (  cadastroMecanico.getNome(),
                                     cadastroMecanico.getSobrenome(),
@@ -197,9 +173,18 @@ public class Registrar_1 extends AppCompatActivity implements View.OnClickListen
                             );
 
 
-                            String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                            criacaoMotorista.child(key).setValue(user);
+                            String key = userKey;///FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            criacaoPartner.child(key).setValue(user);
                             //FIM CADASTRO NO BANCO
+
+
+                            //usuario registrou corretamente
+                            finish();
+                            //inicializar cadastro de perfil
+                            startActivity(new Intent(getApplicationContext(), Main.class));
+                            //mostrar mensagem para usuario indicando sucesso
+                            Toast.makeText(Registrar_1.this, "Registrado com Sucesso.", Toast.LENGTH_SHORT).show();
+                            userKey =  task.getResult().getUser().getUid().toString();
                             dialogoProgresso.dismiss();
                         } else {
                             try {
@@ -214,7 +199,7 @@ public class Registrar_1 extends AppCompatActivity implements View.OnClickListen
                                 Toast.makeText(Registrar_1.this, "O usuário escolhido já está cadastrado. Escolha outro!", Toast.LENGTH_LONG).show();
                                 dialogoProgresso.dismiss();
                             } catch (Exception e) {
-                                Log.e(TAG, e.getMessage());
+                                Log.e(TAG, "erro do caralho" + e.getMessage());
                             }
                         }
                     }

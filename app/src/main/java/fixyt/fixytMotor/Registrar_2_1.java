@@ -93,6 +93,7 @@ public class Registrar_2_1 extends AppCompatActivity implements View.OnClickList
 
 
     }
+    String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -102,7 +103,7 @@ public class Registrar_2_1 extends AppCompatActivity implements View.OnClickList
             displayPhoto.setImageBitmap(photo);
 
 
-            String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
 
             StorageReference fixytRef = fireStorage.child("Mecanicos/Documentos/"+ key.toString() +"/cnhmecanico.jpg");
 
