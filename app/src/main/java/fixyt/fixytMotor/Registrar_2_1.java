@@ -37,6 +37,10 @@ public class Registrar_2_1 extends AppCompatActivity implements View.OnClickList
     private StorageReference fireStorage;
     private FirebaseAuth firebasAuth;
 
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "Não é possivel voltar! Finalize o Cadastro!", Toast.LENGTH_SHORT).show();
+    }
 
 
     @Override

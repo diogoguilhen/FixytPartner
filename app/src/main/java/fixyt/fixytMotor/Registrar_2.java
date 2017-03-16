@@ -1,4 +1,3 @@
-
 package fixyt.fixytMotor;
 
 import android.app.ProgressDialog;
@@ -12,12 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.HashMap;
-
 
 public class Registrar_2 extends AppCompatActivity implements View.OnClickListener  {
 
@@ -38,9 +35,13 @@ public class Registrar_2 extends AppCompatActivity implements View.OnClickListen
     private ArrayAdapter adaptadorTpLogradouro;
     private ProgressDialog dialogoProgresso;
 
-
     // Declarar API Firabase Auth
     private FirebaseAuth firebasAuth;
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "Não é possivel voltar! Finalize o Cadastro!", Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +50,8 @@ public class Registrar_2 extends AppCompatActivity implements View.OnClickListen
 
         //Chamando FIrebase Auth
         firebasAuth = FirebaseAuth.getInstance();
-     //  if(firebasAuth.getCurrentUser() != null){
-     //      //ir para tela main ou perfil
-     //      finish();
-     //      //inicializar tela principal
-     //      startActivity(new Intent(getApplicationContext(), Main.class));
-     //  }
+
+
 
         dialogoProgresso = new ProgressDialog(this);
 
@@ -197,9 +194,6 @@ public class Registrar_2 extends AppCompatActivity implements View.OnClickListen
             return;
         }
 
-
-        dialogoProgresso.setMessage("Aguarde...");
-        dialogoProgresso.show();
 
         // CADASTRO NO DATABASE
 
