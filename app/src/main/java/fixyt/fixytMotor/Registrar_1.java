@@ -128,6 +128,7 @@ public class Registrar_1 extends AppCompatActivity implements View.OnClickListen
             //parar a execução do código
             return;
         }
+
         if(TextUtils.isEmpty(email)){
             //email vazio
             Toast.makeText(this, "Ingresse um Email Válido!", Toast.LENGTH_SHORT).show();
