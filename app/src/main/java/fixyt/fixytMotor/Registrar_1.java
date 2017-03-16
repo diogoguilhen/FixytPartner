@@ -165,14 +165,31 @@ public class Registrar_1 extends AppCompatActivity implements View.OnClickListen
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference criacaoPartner = database.getReference("Partner");
 
-                            CadastroMecanico user = new CadastroMecanico (  cadastroMecanico.getNome(),
+                            CadastroMecanico user = new CadastroMecanico (
+                                    cadastroMecanico.getNome(),
                                     cadastroMecanico.getSobrenome(),
                                     cadastroMecanico.getTelefone(),
                                     cadastroMecanico.getEmail(),
-                                    cadastroMecanico.getSenha()
+                                    cadastroMecanico.getSenha(),
+                              "null",     //cadastroMecanico.getCpf(),
+                              "null",     //cadastroMecanico.getRg(),
+                              "null",     //cadastroMecanico.getSexo(),
+                              "null",     //cadastroMecanico.getTpLogradouro(),
+                              "null",     //cadastroMecanico.getEndereco(),
+                              "null",     //cadastroMecanico.getCep(),
+                              "null",     //cadastroMecanico.getBairro(),
+                              "null",     //cadastroMecanico.getUf(),
+                              "null",     //cadastroMecanico.getCidade(),
+                              "null",     //cadastroMecanico.getPais(),
+                              "null",     //cadastroMecanico.getDataNascimento(),
+                              "null",     //cadastroMecanico.getPerfilTipo(),
+                              "null",     //cadastroMecanico.getTipoServicoEmergencial(),
+                              "null",     //cadastroMecanico.getTipoServicoAgendado(),
+                              "null"      //cadastroMecanico.getServicos()
                             );
 
-
+                            //Pegar o uid do usuario registrado
+                            userKey =  task.getResult().getUser().getUid().toString();
                             String key = userKey;///FirebaseAuth.getInstance().getCurrentUser().getUid();
                             criacaoPartner.child(key).setValue(user);
                             //FIM CADASTRO NO BANCO
@@ -181,10 +198,15 @@ public class Registrar_1 extends AppCompatActivity implements View.OnClickListen
                             //usuario registrou corretamente
                             finish();
                             //inicializar cadastro de perfil
-                            startActivity(new Intent(getApplicationContext(), Main.class));
+                            //startActivity(new Intent(getApplicationContext(), Main.class));
+
+                            //Passar os dados para a tela 2
+                            Intent intentReg1 = new Intent(Registrar_1.this, Registrar_2.class);
+                            intentReg1.putExtra("cadastro", cadastroMecanico);
+                            startActivity(intentReg1);
+
                             //mostrar mensagem para usuario indicando sucesso
                             Toast.makeText(Registrar_1.this, "Registrado com Sucesso.", Toast.LENGTH_SHORT).show();
-                            userKey =  task.getResult().getUser().getUid().toString();
                             dialogoProgresso.dismiss();
                         } else {
                             try {
@@ -199,7 +221,7 @@ public class Registrar_1 extends AppCompatActivity implements View.OnClickListen
                                 Toast.makeText(Registrar_1.this, "O usuário escolhido já está cadastrado. Escolha outro!", Toast.LENGTH_LONG).show();
                                 dialogoProgresso.dismiss();
                             } catch (Exception e) {
-                                Log.e(TAG, "erro do caralho" + e.getMessage());
+                                Log.e(TAG,  e.getMessage());
                             }
                         }
                     }
@@ -208,9 +230,9 @@ public class Registrar_1 extends AppCompatActivity implements View.OnClickListen
 
 
         //Passando dados para a tela REGISTRAR 2
-        Intent intentReg1 = new Intent(Registrar_1.this, Registrar_2.class);
+        /*Intent intentReg1 = new Intent(Registrar_1.this, Registrar_2.class);
         intentReg1.putExtra("cadastro", cadastroMecanico);
         startActivity(intentReg1);
-        dialogoProgresso.dismiss();
+        dialogoProgresso.dismiss();*/
     }
 }

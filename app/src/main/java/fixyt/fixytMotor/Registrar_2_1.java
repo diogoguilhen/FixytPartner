@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -86,6 +85,8 @@ public class Registrar_2_1 extends AppCompatActivity implements View.OnClickList
 
     }
 
+
+
     private void photoLoad() {
         Intent capture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(capture, REQUEST_CAPTURE);
@@ -93,7 +94,7 @@ public class Registrar_2_1 extends AppCompatActivity implements View.OnClickList
 
 
     }
-    String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -103,7 +104,7 @@ public class Registrar_2_1 extends AppCompatActivity implements View.OnClickList
             displayPhoto.setImageBitmap(photo);
 
 
-
+            String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
             StorageReference fixytRef = fireStorage.child("Mecanicos/Documentos/"+ key.toString() +"/cnhmecanico.jpg");
 

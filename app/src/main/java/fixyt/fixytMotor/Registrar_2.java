@@ -1,3 +1,4 @@
+
 package fixyt.fixytMotor;
 
 import android.app.ProgressDialog;
@@ -11,10 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+
 
 public class Registrar_2 extends AppCompatActivity implements View.OnClickListener  {
 
@@ -35,6 +38,7 @@ public class Registrar_2 extends AppCompatActivity implements View.OnClickListen
     private ArrayAdapter adaptadorTpLogradouro;
     private ProgressDialog dialogoProgresso;
 
+
     // Declarar API Firabase Auth
     private FirebaseAuth firebasAuth;
 
@@ -45,12 +49,12 @@ public class Registrar_2 extends AppCompatActivity implements View.OnClickListen
 
         //Chamando FIrebase Auth
         firebasAuth = FirebaseAuth.getInstance();
-        if(firebasAuth.getCurrentUser() != null){
-            //ir para tela main ou perfil
-            finish();
-            //inicializar tela principal
-            startActivity(new Intent(getApplicationContext(), Main.class));
-        }
+     //  if(firebasAuth.getCurrentUser() != null){
+     //      //ir para tela main ou perfil
+     //      finish();
+     //      //inicializar tela principal
+     //      startActivity(new Intent(getApplicationContext(), Main.class));
+     //  }
 
         dialogoProgresso = new ProgressDialog(this);
 
@@ -194,27 +198,93 @@ public class Registrar_2 extends AppCompatActivity implements View.OnClickListen
         }
 
 
+        dialogoProgresso.setMessage("Aguarde...");
+        dialogoProgresso.show();
+
         // CADASTRO NO DATABASE
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference criacaoMotorista = database.getReference("Partner");
 
-        CadastroMecanico user = new CadastroMecanico (  cadastroMecanico.getCpf(),
-                                                        cadastroMecanico.getRg(),
-                                                        cadastroMecanico.getSexo(),
-                                                        cadastroMecanico.getTpLogradouro(),
-                                                        cadastroMecanico.getEndereco(),
-                                                        cadastroMecanico.getCep(),
-                                                        cadastroMecanico.getBairro(),
-                                                        cadastroMecanico.getUf(),
-                                                        cadastroMecanico.getCidade(),
-                                                        cadastroMecanico.getPais(),
-                                                        cadastroMecanico.getDataNascimento()
-        );
+       // CadastroMecanico user = new CadastroMecanico (
+       //         cadastroMecanico.getNome(),
+       //         cadastroMecanico.getSobrenome(),
+       //         cadastroMecanico.getTelefone(),
+       //         cadastroMecanico.getEmail(),
+       //         cadastroMecanico.getSenha(),
+       //         cadastroMecanico.getCpf(),
+       //         cadastroMecanico.getRg(),
+       //         cadastroMecanico.getSexo(),
+       //         cadastroMecanico.getTpLogradouro(),
+       //         cadastroMecanico.getEndereco(),
+       //         cadastroMecanico.getCep(),
+       //         cadastroMecanico.getBairro(),
+       //         cadastroMecanico.getUf(),
+       //         cadastroMecanico.getCidade(),
+       //         cadastroMecanico.getPais(),
+       //         cadastroMecanico.getDataNascimento(),
+       //         cadastroMecanico.getPerfilTipo(),
+       //         cadastroMecanico.getTipoServicoEmergencial(),
+       //         cadastroMecanico.getTipoServicoAgendado(),
+       //         cadastroMecanico.getServicos()
+       // );
 
 
-        String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        criacaoMotorista.child(key).setValue(user);
+
+
+       String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
+       //metodo antigo que acaba substituindo o banco inteiro  nao viavel.
+        //criacaoMotorista.child(key).setValue(user);
+
+
+         /// ATUALIZANDO CAMPO POR CAMPO
+
+         //CPF
+        HashMap<String, Object> cpfmap = new HashMap<>();
+        cpfmap.put("cpf", cadastroMecanico.getCpf());
+        criacaoMotorista.child(key).updateChildren(cpfmap);
+        //RG
+        HashMap<String, Object> rgmap = new HashMap<>();
+        rgmap.put("rg", cadastroMecanico.getRg());
+        criacaoMotorista.child(key).updateChildren(rgmap);
+        //DATANASCIMENTO
+        HashMap<String, Object> datanascimentomap = new HashMap<>();
+        datanascimentomap.put("dataNascimento", cadastroMecanico.getDataNascimento());
+        criacaoMotorista.child(key).updateChildren(datanascimentomap);
+        //SEXO
+        HashMap<String, Object> sexomap = new HashMap<>();
+        sexomap.put("sexo", cadastroMecanico.getSexo());
+        criacaoMotorista.child(key).updateChildren(sexomap);
+        //TP LOGRADOURO
+        HashMap<String, Object> tplogradouromap = new HashMap<>();
+        tplogradouromap.put("tpLogradouro", cadastroMecanico.getTpLogradouro());
+        criacaoMotorista.child(key).updateChildren(tplogradouromap);
+        //ENDERECO
+        HashMap<String, Object> enderecomap = new HashMap<>();
+        enderecomap.put("endereco", cadastroMecanico.getEndereco());
+        criacaoMotorista.child(key).updateChildren(enderecomap);
+        //CEP
+        HashMap<String, Object> cepmap = new HashMap<>();
+        cepmap.put("cep", cadastroMecanico.getCep());
+        criacaoMotorista.child(key).updateChildren(cepmap);
+        //BAIRRO
+        HashMap<String, Object> bairromap = new HashMap<>();
+        bairromap.put("bairro", cadastroMecanico.getBairro());
+        criacaoMotorista.child(key).updateChildren(bairromap);
+        //ESTADO
+        HashMap<String, Object> ufmap = new HashMap<>();
+        ufmap.put("estado", cadastroMecanico.getUf());
+        criacaoMotorista.child(key).updateChildren(ufmap);
+        //CIDADE
+        HashMap<String, Object> cidademap = new HashMap<>();
+        cidademap.put("cidade", cadastroMecanico.getCidade());
+        criacaoMotorista.child(key).updateChildren(cidademap);
+
+
+
+
+
+
 
 
 

@@ -117,7 +117,12 @@ public class CadastroMecanico implements Parcelable{
 
     // REGISTRAR 2
 
-    public CadastroMecanico(String cpf, String rg, String sexo, String tpLogradouro, String endereco, String cep, String bairro, String uf, String cidade, String pais, String dataNascimento) {
+    public CadastroMecanico(String nome, String sobrenome, String telefone, String email, String senha,String cpf, String rg, String sexo, String tpLogradouro, String endereco, String cep, String bairro, String uf, String cidade, String pais, String dataNascimento) {
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.telefone = telefone;
+        this.email = email;
+        this.senha = senha;
         this.cpf = cpf;
         this.rg = rg;
         this.sexo = sexo;
@@ -134,6 +139,30 @@ public class CadastroMecanico implements Parcelable{
     // REGISTRAR 3
 
     public CadastroMecanico(String perfilTipo, String tipoServicoEmergencial, String tipoServicoAgendado, String servicos) {
+        this.perfilTipo = perfilTipo;
+        this.tipoServicoEmergencial = tipoServicoEmergencial;
+        this.tipoServicoAgendado = tipoServicoAgendado;
+        this.servicos = servicos;
+    }
+// CADASTRO TOTAL
+
+    public CadastroMecanico(String nome, String sobrenome, String telefone, String email, String senha, String cpf, String rg, String sexo, String tpLogradouro, String endereco, String cep, String bairro, String uf, String cidade, String pais, String dataNascimento, String perfilTipo, String tipoServicoEmergencial, String tipoServicoAgendado, String servicos) {
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.telefone = telefone;
+        this.email = email;
+        this.senha = senha;
+        this.cpf = cpf;
+        this.rg = rg;
+        this.sexo = sexo;
+        this.tpLogradouro = tpLogradouro;
+        this.endereco = endereco;
+        this.cep = cep;
+        this.bairro = bairro;
+        this.uf = uf;
+        this.cidade = cidade;
+        this.pais = pais;
+        this.dataNascimento = dataNascimento;
         this.perfilTipo = perfilTipo;
         this.tipoServicoEmergencial = tipoServicoEmergencial;
         this.tipoServicoAgendado = tipoServicoAgendado;
