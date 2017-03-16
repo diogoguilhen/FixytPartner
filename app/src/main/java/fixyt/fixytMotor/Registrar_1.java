@@ -160,7 +160,6 @@ public class Registrar_1 extends AppCompatActivity implements View.OnClickListen
                         //Se tarefa é completada
                         if (task.isSuccessful()) {
                             // CADASTRO NO FIREBASE E DEPOIS NO BANCO
-                            // PARECE QUE NÃO ESTA ROLANDO DENTRO DO IF DA AUTENTICAÇÃO E NEM AQUI FORA, AINDA PRECISO VERIFICAR.
 
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference criacaoPartner = database.getReference("Partner");
