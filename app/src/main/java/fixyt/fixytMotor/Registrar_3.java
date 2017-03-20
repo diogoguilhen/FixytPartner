@@ -159,7 +159,6 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
 
         String json = new Gson().toJson(arrayList);
 
-
         userKey =  firebasAuth.getCurrentUser().getUid().toString();    //getUser().getUid().toString();
 
         Gson gson = new GsonBuilder().create();

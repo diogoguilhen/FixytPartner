@@ -36,7 +36,22 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
 
         logOut.setOnClickListener(this);
 
+
+
+      //raiz.child("usuarios/8").addValueEventListener(new ValueEventListener() {
+      //    @Override
+      //    public void onDataChange(DataSnapshot dataSnapshot)
+      //    {
+      //        Utilizador user = dataSnapshot.getValue(Utilizador.class);
+      //    }
+      //    @Override
+      //    public void onCancelled(DatabaseError databaseError) {
+      //        //Se ocorrer um erro}
+      //    });
     }
+
+
+
 
     @Override
     public void onClick(View v) {

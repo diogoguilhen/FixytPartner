@@ -202,31 +202,6 @@ public class Registrar_2 extends AppCompatActivity implements View.OnClickListen
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference criacaoMotorista = database.getReference("Partner");
 
-       // CadastroMecanico user = new CadastroMecanico (
-       //         cadastroMecanico.getNome(),
-       //         cadastroMecanico.getSobrenome(),
-       //         cadastroMecanico.getTelefone(),
-       //         cadastroMecanico.getEmail(),
-       //         cadastroMecanico.getSenha(),
-       //         cadastroMecanico.getCpf(),
-       //         cadastroMecanico.getRg(),
-       //         cadastroMecanico.getSexo(),
-       //         cadastroMecanico.getTpLogradouro(),
-       //         cadastroMecanico.getEndereco(),
-       //         cadastroMecanico.getCep(),
-       //         cadastroMecanico.getBairro(),
-       //         cadastroMecanico.getUf(),
-       //         cadastroMecanico.getCidade(),
-       //         cadastroMecanico.getPais(),
-       //         cadastroMecanico.getDataNascimento(),
-       //         cadastroMecanico.getPerfilTipo(),
-       //         cadastroMecanico.getTipoServicoEmergencial(),
-       //         cadastroMecanico.getTipoServicoAgendado(),
-       //         cadastroMecanico.getServicos()
-       // );
-
-
-
 
        String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
        //metodo antigo que acaba substituindo o banco inteiro  nao viavel.
