@@ -269,7 +269,7 @@ public class Registrar_2 extends AppCompatActivity implements View.OnClickListen
         criacaoMotorista.child(key).updateChildren(bairromap);
         //ESTADO
         HashMap<String, Object> ufmap = new HashMap<>();
-        ufmap.put("estado", cadastroMecanico.getUf());
+        ufmap.put("uf", cadastroMecanico.getUf());
         criacaoMotorista.child(key).updateChildren(ufmap);
         //CIDADE
         HashMap<String, Object> cidademap = new HashMap<>();

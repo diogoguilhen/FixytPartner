@@ -17,12 +17,26 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.internal.ObjectConstructor;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Registrar_3 extends AppCompatActivity implements View.OnClickListener {
 
@@ -32,7 +46,7 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
     private String[] campoServicos;
     private CheckBox checkbox;
     private LinearLayout Checkboxes_Guincho, Checkboxes_CarroMoto;
-
+    public String userKey;
     private ProgressDialog dialogoProgresso;
 
 
@@ -76,7 +90,7 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
     public void onClick(View v) {
         if (v == botaoProximo3) {
             //Finalizar Cadastro, salvar no banco de dados associando o User aos dados e ir para Main
-            if (campoPerfilTipo == "Carro/Moto") {
+            if (campoPerfilTipo == "CarroEMoto") {
                 ArrayList<String> servicosSelecionados = new ArrayList<>();
                 for (int i = 0; i < Checkboxes_CarroMoto.getChildCount(); i++) {
                     View nextChild = Checkboxes_CarroMoto.getChildAt(i);
@@ -99,7 +113,7 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
             }
         }
         if (v == iconeCarroMoto){
-            campoPerfilTipo = "Carro/Moto";
+            campoPerfilTipo = "CarroEMoto";
             // Mostrar os checkboxes de Carro moto
             Toast.makeText(this, "Perfil de Carro/Moto Selecionado", Toast.LENGTH_SHORT).show();
             String[] arrayCarroMoto = getResources().getStringArray(R.array.CarroMotoChecks);
@@ -144,26 +158,63 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
         //Recebendo cadastro da tela Registrar_2_1
         CadastroMecanico cadastroMecanico =(CadastroMecanico)getIntent().getParcelableExtra("cadastro");
 
+
         //Apropriando os valores aos campos seguintes.
         cadastroMecanico.setPerfilTipo(campoPerfilTipo.trim());
-        //cadastroMecanico.setServicos(campoServicos);
+        //cadastroMecanico.setServicos(arrayList);
 
-
-
-
-        /*if(TextUtils.isEmpty(modeloVeiculo)){
-            //Modelo de Veiculo vazio
-            Toast.makeText(this, "Ingresse um Modelo de Carro!", Toast.LENGTH_SHORT).show();
-            //parar a execução do código
-            return;
-        }*/
 
         // Após validar que cadastro está OK um dialogo de progresso é mostrada
 
-        dialogoProgresso.setMessage("Perfil Selecionado: " + cadastroMecanico.getPerfilTipo() + "\n" + "Servicos: " + arrayList.get(1) + ", " + arrayList.get(2));
         dialogoProgresso.show();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference criacaoPartner = database.getReference("Partner");
+
+
+        String json = new Gson().toJson(arrayList);
+
+
+        userKey =  firebasAuth.getCurrentUser().getUid().toString();    //getUser().getUid().toString();
+
+        Gson gson = new GsonBuilder().create();
+
+        JsonArray myCustomArray = gson.toJsonTree(arrayList).getAsJsonArray();
+
+        JsonObject jsonObject = new JsonObject();
+
+        jsonObject.add("Diferenciado", myCustomArray);
+
+        String key = userKey;
+        criacaoPartner.child(key).child(cadastroMecanico.getPerfilTipo().toString()).setValue(jsonObject.toString());
+
+
+        //PerfilTipo
+        HashMap<String, Object> perfilTipo = new HashMap<>();
+        perfilTipo.put("perfilTipo",  cadastroMecanico.getPerfilTipo());
+        criacaoPartner.child(key).updateChildren(perfilTipo);
+
+        //PerfilTipo
+        HashMap<String, Object> servicos = new HashMap<>();
+        servicos.put("servicos",  json.toString());
+        criacaoPartner.child(key).updateChildren(servicos);
+
+
+        //só criar um objeto para esse cadastro de tipo de perfil...
+
+
+
+        //dialogoProgresso.setMessage("Perfil Selecionado: " + cadastroMecanico.getPerfilTipo() + "\n" + "Servicos: " + arrayList.get(1) + ", " + arrayList.get(2));
+
+        dialogoProgresso.dismiss();
+
+
+        //Passando dados para a tela REGISTRAR 3
+        Intent intentMain = new Intent(Registrar_3.this, Main.class);
+        startActivity(intentMain);
 
 
     }
+
 
 }

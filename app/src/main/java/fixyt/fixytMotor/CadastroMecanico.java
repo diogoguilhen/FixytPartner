@@ -3,6 +3,8 @@ package fixyt.fixytMotor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 public class CadastroMecanico implements Parcelable{
 
     // Tipo String
@@ -146,7 +148,7 @@ public class CadastroMecanico implements Parcelable{
     }
 // CADASTRO TOTAL
 
-    public CadastroMecanico(String nome, String sobrenome, String telefone, String email, String senha, String cpf, String rg, String sexo, String tpLogradouro, String endereco, String cep, String bairro, String uf, String cidade, String pais, String dataNascimento, String perfilTipo, String tipoServicoEmergencial, String tipoServicoAgendado, String servicos) {
+    public CadastroMecanico(String nome, String sobrenome, String telefone, String email, String senha, String cpf, String rg, String sexo, String tpLogradouro, String endereco, String cep, String bairro, String uf, String cidade, /*String pais,*/ String dataNascimento, String perfilTipo, /*String tipoServicoEmergencial, String tipoServicoAgendado,*/ String servicos) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.telefone = telefone;
@@ -161,11 +163,11 @@ public class CadastroMecanico implements Parcelable{
         this.bairro = bairro;
         this.uf = uf;
         this.cidade = cidade;
-        this.pais = pais;
+        //this.pais = pais;
         this.dataNascimento = dataNascimento;
         this.perfilTipo = perfilTipo;
-        this.tipoServicoEmergencial = tipoServicoEmergencial;
-        this.tipoServicoAgendado = tipoServicoAgendado;
+       // this.tipoServicoEmergencial = tipoServicoEmergencial;
+        //this.tipoServicoAgendado = tipoServicoAgendado;
         this.servicos = servicos;
     }
 
@@ -321,8 +323,11 @@ public class CadastroMecanico implements Parcelable{
         return servicos;
     }
 
-    public void setServicos(String servicos) {
-        this.servicos = servicos;
+    public void setServicos(ArrayList servicos)
+    {
+
+
+        this.servicos = servicos.toString();
     }
 
 
@@ -333,4 +338,8 @@ public class CadastroMecanico implements Parcelable{
     public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
+
+
+
+
 }

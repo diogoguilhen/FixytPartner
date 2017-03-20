@@ -180,11 +180,11 @@ public class Registrar_1 extends AppCompatActivity implements View.OnClickListen
                               "null",     //cadastroMecanico.getBairro(),
                               "null",     //cadastroMecanico.getUf(),
                               "null",     //cadastroMecanico.getCidade(),
-                              "null",     //cadastroMecanico.getPais(),
+                           // "null",     //cadastroMecanico.getPais(),
                               "null",     //cadastroMecanico.getDataNascimento(),
                               "null",     //cadastroMecanico.getPerfilTipo(),
-                              "null",     //cadastroMecanico.getTipoServicoEmergencial(),
-                              "null",     //cadastroMecanico.getTipoServicoAgendado(),
+                           // "null",     //cadastroMecanico.getTipoServicoEmergencial(),
+                           // "null",     //cadastroMecanico.getTipoServicoAgendado(),
                               "null"      //cadastroMecanico.getServicos()
                             );
 
