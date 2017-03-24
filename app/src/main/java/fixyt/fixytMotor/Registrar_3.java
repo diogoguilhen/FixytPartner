@@ -167,10 +167,10 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
 
         JsonObject jsonObject = new JsonObject();
 
-        jsonObject.add("Diferenciado", myCustomArray);
+      //  jsonObject.add("Diferenciado", myCustomArray);
 
         String key = userKey;
-        criacaoPartner.child(key).child(cadastroMecanico.getPerfilTipo().toString()).setValue(jsonObject.toString());
+    //    criacaoPartner.child(key).child(cadastroMecanico.getPerfilTipo().toString()).setValue(jsonObject.toString());
 
 
         //PerfilTipo
@@ -183,8 +183,6 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
         servicos.put("servicos",  json.toString());
         criacaoPartner.child(key).updateChildren(servicos);
 
-
-        //só criar um objeto para esse cadastro de tipo de perfil...
 
 
 
