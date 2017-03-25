@@ -31,6 +31,10 @@ public class CadastroMecanico implements Parcelable{
     private String tipoServicoAgendado;
     private String servicos;
 
+    //INSERCAO DA PARTE DE VARIAVEIS DA LOCALIZAÇÃO
+    private String vLatitude;
+    private String vLongitude;
+
 
     public CadastroMecanico() {
         super();
@@ -146,6 +150,15 @@ public class CadastroMecanico implements Parcelable{
         this.tipoServicoAgendado = tipoServicoAgendado;
         this.servicos = servicos;
     }
+
+    // GPS
+
+    public CadastroMecanico(String vLatitude, String vLongitude) {
+        this.vLatitude = vLatitude;
+        this.vLongitude = vLongitude;
+    }
+
+
 // CADASTRO TOTAL
 
     public CadastroMecanico(String nome, String sobrenome, String telefone, String email, String senha, String cpf, String rg, String sexo, String tpLogradouro, String endereco, String cep, String bairro, String uf, String cidade, /*String pais,*/ String dataNascimento, String perfilTipo, /*String tipoServicoEmergencial, String tipoServicoAgendado,*/ String servicos) {
@@ -339,7 +352,19 @@ public class CadastroMecanico implements Parcelable{
         this.dataNascimento = dataNascimento;
     }
 
+    public String getvLatitude() {
+        return vLatitude;
+    }
 
+    public void setvLatitude(String vLatitude) {
+        this.vLatitude = vLatitude;
+    }
 
+    public String getvLongitude() {
+        return vLongitude;
+    }
 
+    public void setvLongitude(String vLongitude) {
+        this.vLongitude = vLongitude;
+    }
 }
