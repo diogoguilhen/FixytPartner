@@ -157,9 +157,9 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
         DatabaseReference criacaoPartner = database.getReference("Partner");
 
 
-        String json = new Gson().toJson(arrayList);
+       // String json = new Gson().toJson(arrayList);
 
-        String teste = new String (arrayList.toString());
+        String listaDeItens = new String (arrayList.toString());
 
         userKey =  firebasAuth.getCurrentUser().getUid().toString();    //getUser().getUid().toString();
 
@@ -190,7 +190,7 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
 
         //PerfilTipo
         HashMap<String, Object> servicos = new HashMap<>();
-        servicos.put("servicos",  teste.toString());
+        servicos.put("servicos",  listaDeItens.toString());
         criacaoPartner.child(key).updateChildren(servicos);
 
 
