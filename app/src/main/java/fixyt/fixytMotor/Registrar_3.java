@@ -146,7 +146,7 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
 
         //Apropriando os valores aos campos seguintes.
         cadastroMecanico.setPerfilTipo(campoPerfilTipo.trim());
-        //cadastroMecanico.setServicos(arrayList);
+        cadastroMecanico.setServicos(arrayList);
 
 
         // Após validar que cadastro está OK um dialogo de progresso é mostrada
@@ -159,13 +159,15 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
 
         String json = new Gson().toJson(arrayList);
 
+        String teste = new String (arrayList.toString());
+
         userKey =  firebasAuth.getCurrentUser().getUid().toString();    //getUser().getUid().toString();
 
-        Gson gson = new GsonBuilder().create();
+   //     Gson gson = new GsonBuilder().create();
 
-        JsonArray myCustomArray = gson.toJsonTree(arrayList).getAsJsonArray();
+    //    JsonArray myCustomArray = gson.toJsonTree(arrayList).getAsJsonArray();
 
-        JsonObject jsonObject = new JsonObject();
+     //   JsonObject jsonObject = new JsonObject();
 
       //  jsonObject.add("Diferenciado", myCustomArray);
 
@@ -178,11 +180,18 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
         perfilTipo.put("perfilTipo",  cadastroMecanico.getPerfilTipo());
         criacaoPartner.child(key).updateChildren(perfilTipo);
 
+        /////// METODO ANTIGO
+
+      //  //PerfilTipo
+      //  HashMap<String, Object> servicos = new HashMap<>();
+      //  servicos.put("servicos",  json.toString());
+      //  criacaoPartner.child(key).updateChildren(servicos);
+
+
         //PerfilTipo
         HashMap<String, Object> servicos = new HashMap<>();
-        servicos.put("servicos",  json.toString());
+        servicos.put("servicos",  teste.toString());
         criacaoPartner.child(key).updateChildren(servicos);
-
 
 
 
