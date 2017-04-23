@@ -34,6 +34,7 @@ public class CadastroMecanico implements Parcelable{
     //INSERCAO DA PARTE DE VARIAVEIS DA LOCALIZAÇÃO
     private String vLatitude;
     private String vLongitude;
+    private String pontoReferencia;
 
 
     public CadastroMecanico() {
@@ -64,6 +65,12 @@ public class CadastroMecanico implements Parcelable{
         this.perfilTipo=parcel.readString();
         this.servicos=parcel.readString();
 }
+
+    public CadastroMecanico(String vLatitude, String vLongitude, String pontoReferencia) {
+        this.vLatitude = vLatitude;
+        this.vLongitude = vLongitude;
+        this.pontoReferencia = pontoReferencia;
+    }
 
     //Metodo de descrição de conteudo do Parcelable
     @Override
@@ -366,5 +373,13 @@ public class CadastroMecanico implements Parcelable{
 
     public void setvLongitude(String vLongitude) {
         this.vLongitude = vLongitude;
+    }
+
+    public String getPontoReferencia() {
+        return pontoReferencia;
+    }
+
+    public void setPontoReferencia(String pontoReferencia) {
+        pontoReferencia = pontoReferencia;
     }
 }
