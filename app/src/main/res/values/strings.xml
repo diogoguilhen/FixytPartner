@@ -52,14 +52,14 @@
         <item>Carga de Bateria</item>
         <item>Troca de Pneus</item>
         <item>Recarga de Gasolina (Pane Seca)</item>
-        <item>Manutenção Agendada</item>
+
     </string-array>
 
     <string-array name="CarroMotoChecks">
         <item>Carga de Bateria</item>
         <item>Troca de Pneus</item>
         <item>Recarga de Gasolina (Pane Seca)</item>
-        <item>Manutenção Agendada</item>
+
 
     </string-array>
 

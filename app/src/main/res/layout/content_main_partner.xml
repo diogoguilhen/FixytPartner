@@ -9,28 +9,15 @@
     tools:showIn="@layout/app_bar_main_partner">
 
 
-  <!--  <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/principal_back"
-        android:id="@+id/imageView8"
-        android:scaleType="centerCrop"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:contentDescription="Fundo de tela" />
-<Button
-        android:text="Log Out"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/botaoLogout"
-        android:layout_marginTop="30dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="28dp"
-        android:layout_marginStart="28dp" /> -->
-
+  <Button
+      android:id="@+id/botaoAuxilio"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentStart="true"
+      android:text="Atendimentos Emergenciais"
+      tools:layout_editor_absoluteX="0dp"
+      tools:layout_editor_absoluteY="56dp" />
 
     <Button
         android:text="Perfil"
@@ -43,6 +30,9 @@
         android:layout_alignParentEnd="true"
         android:layout_marginRight="28dp"
         android:layout_marginEnd="28dp" />
+
+
+
 
 
 

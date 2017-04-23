@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,8 +20,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,36 +40,43 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 
-public class Auxilio extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener,
+public class Auxilio extends FragmentActivity implements  View.OnClickListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
     private FirebaseAuth firebaseAuth;
 
-    private Button botao;
+    private Switch statusOnOff;
     private LocationManager locationManager;
-    private GoogleMap gMap;
+
     public String userKey;
-    private EditText textoEndereco;
-    private EditText pontoReferencia;
-    private Marker motoristaPosition;
-    private int contadorLeituraMapa = 0;
-    public Double fromLatitude;
-    public Double fromLongitude;
-    String vLatitude;
-    String vLongitude;
+    private TextView pontoReferencia;
+    private TextView tempoEstimado;
+    private TextView nomeMotorista;
+    public String online = "";
+    private String servicoString;
+    private ArrayList<String> atendimentos;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     LocationRequest mLocationRequest;
     Context context;
     boolean GpsStatus ;
+    public String codChamado = "";
 
 
     @Override
@@ -87,9 +98,79 @@ public class Auxilio extends FragmentActivity implements OnMapReadyCallback, Vie
             checkLocationPermission();
         }
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.gMapView);
-        mapFragment.getMapAsync(Auxilio.this);
+        pontoReferencia = (TextView) findViewById(R.id.pontoRef);
+        tempoEstimado = (TextView) findViewById(R.id.tempoETA);
+        statusOnOff = (Switch) findViewById(R.id.onOff);
+
+        statusOnOff.setChecked(true);
+        statusOnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    statusOnOff.setText("Na espera de chamados");
+                    online = "1";
+
+
+                }else{
+                    statusOnOff.setText("Offline");
+                    online = "-1";
+                }
+            }
+        });
+
+        if(statusOnOff.isChecked()){
+            statusOnOff.setText("Na espera de chamados");
+            online = "1";
+            //teste
+            //Começo da leitura child (em atendimento)
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference servicos = database.getReference();
+            //Query para captar os servicos do Partner
+            Query query2 = servicos.child("EmAtendimento");
+
+            query2.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot snapshot, String s) {
+                    for(DataSnapshot alert : snapshot.getChildren()){
+                        System.out.println (  "piroca: " + snapshot.getKey());
+                        if(snapshot.getKey().toString().contains(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                            codChamado = alert.child("pontoReferencia").getValue().toString();
+                            pontoReferencia.setText("Ponto de Referencia:" + alert.child("pontoReferencia").getValue().toString());
+                            tempoEstimado.setText(alert.child("tempoEstimado").getValue().toString() + " Minutos até o seu cliente" );
+
+
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+
+
+        }else{
+            statusOnOff.setText("Offline");
+            online = "-1";
+        }
 
         context = getApplicationContext();
 
@@ -104,6 +185,28 @@ public class Auxilio extends FragmentActivity implements OnMapReadyCallback, Vie
             startActivity(intent);
 
         }
+        buildGoogleApiClient();
+
+        // INICIO DE PEGAR OS SERVICOS DO BANCO
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference servicos = database.getReference();
+        //Query para captar os servicos do Partner
+        Query query1 = servicos.child("/Partner/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/servicos");
+
+        query1.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Passar os dados para a interface grafica
+                servicoString = (String) dataSnapshot.getValue();
+            }
+
+            public void onCancelled(DatabaseError databaseError) {
+                //Se ocorrer um erro
+                databaseError.getMessage();
+            }
+
+        });
+
     }
 
 
@@ -114,27 +217,6 @@ public class Auxilio extends FragmentActivity implements OnMapReadyCallback, Vie
     }
 
 
-
-
-    public void onMapReady(GoogleMap googleMap) {
-        gMap = googleMap;
-        //Initialize Google Play Services
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                buildGoogleApiClient();
-                gMap.setMyLocationEnabled(true);
-            }
-        }
-        else {
-            buildGoogleApiClient();
-            gMap.setMyLocationEnabled(true);
-        }
-
-
-
-    }
 
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -206,43 +288,10 @@ public class Auxilio extends FragmentActivity implements OnMapReadyCallback, Vie
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // Permission was granted.
-                    if (ContextCompat.checkSelfPermission(this,
-                            Manifest.permission.ACCESS_FINE_LOCATION)
-                            == PackageManager.PERMISSION_GRANTED) {
-
-                        if (mGoogleApiClient == null) {
-                            buildGoogleApiClient();
-                        }
-                        gMap.setMyLocationEnabled(true);
-                    }
-
-                } else {
-
-                    // Permission denied, Disable the functionality that depends on this permission.
-                    Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show();
-                }
-                return;
-            }
-
-            // other 'case' lines to check for other permissions this app might request.
-            //You can add here other case statements according to your requirement.
-        }
-    }
 
     @Override
     public void onLocationChanged(Location location) {
         mLastLocation = location;
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference localizacao = database.getReference("Localizacoes/Partner");
 
@@ -251,40 +300,12 @@ public class Auxilio extends FragmentActivity implements OnMapReadyCallback, Vie
 
         String vLatitude = String.valueOf(location.getLatitude());
         String vLongitude = String.valueOf(location.getLongitude());
-
-        fromLatitude = location.getLatitude();
-        fromLongitude = location.getLongitude();
-
-        LatLng latLng = new LatLng(fromLatitude, fromLongitude);
-        CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(latLng)      // Sets the center of the map to Mountain View
-                .zoom(14)                   // Sets the zoom
-                .tilt(45)                   // Sets the tilt of the camera to 30 degrees
-                .build();                   // Creates a CameraPosition from the builder
-        gMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-
-        if(contadorLeituraMapa == 0) {
-
-            try {
-                Geocoder geo = new Geocoder(Auxilio.this.getApplicationContext(), Locale.getDefault());
-                List<Address> addresses = geo.getFromLocation(fromLatitude, fromLongitude, 1);
-                if (addresses.isEmpty()) {
-                    textoEndereco.setText("Não encontramos sua localização!");
-                } else {
-                    textoEndereco.setText(addresses.get(0).getAddressLine(0) + ", " + addresses.get(0).getLocality());
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-            contadorLeituraMapa++;
-        }
+        String vOnline = online;
+        String vServico = servicoString;
 
 
 
-        CadastroMecanico diogoLindo = new CadastroMecanico(vLatitude, vLongitude, pontoReferencia.getText().toString());
+        CadastroMecanico diogoLindo = new CadastroMecanico(vLatitude, vLongitude, vOnline, vServico);
 
 
         localizacao.child(key).setValue(diogoLindo);

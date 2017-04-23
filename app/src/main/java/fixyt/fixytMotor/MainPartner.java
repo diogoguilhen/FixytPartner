@@ -25,6 +25,7 @@ public class MainPartner extends AppCompatActivity
 
     private FirebaseAuth firebaseAuth;
   //  private Button exit;
+    private Button atendimentosEmergenciais;
     private Button perfilUser;
 
 
@@ -60,25 +61,24 @@ public class MainPartner extends AppCompatActivity
             startActivity(new Intent(this, PreLogin.class));
         }
 
+        atendimentosEmergenciais = (Button) findViewById(R.id.botaoAuxilio);
         //exit = (Button) findViewById(R.id.exit);
         perfilUser = (Button) findViewById(R.id.botaoPerfil);
 
 
          //exit.setOnClickListener(this);
-         perfilUser.setOnClickListener(this);
-
+        perfilUser.setOnClickListener(this);
+        atendimentosEmergenciais.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View v) {
-    //  if(v == exit){
-    //      firebaseAuth.signOut();
-    //      finish();
-    //      startActivity(new Intent(this, PreLogin.class));
-    //  }
+        if(v == atendimentosEmergenciais){
+
+            startActivity(new Intent(this, Auxilio.class));
+        }
         if(v == perfilUser){
-            finish();
             startActivity(new Intent(this, Perfil.class));
         }
 

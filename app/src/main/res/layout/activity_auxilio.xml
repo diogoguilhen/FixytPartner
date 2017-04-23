@@ -9,98 +9,6 @@
     android:orientation="vertical">
 
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/principal_back"
-        android:id="@+id/imageView8"
-        android:scaleType="centerCrop"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:orientation="horizontal">
-
-
-        <fragment
-            android:id="@+id/gMapView"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="238dp"
-            tools:context="fixyt.fixytMotor.Auxilio" />
-    </LinearLayout>
-
-    <Spinner
-        android:id="@+id/spinnerServico"
-        android:layout_width="match_parent"
-        android:layout_height="37dp"
-
-        android:layout_alignLeft="@+id/pontoRef"
-        android:layout_alignStart="@+id/pontoRef"
-        android:layout_below="@+id/textView3"
-        android:layout_gravity="center_vertical"
-        android:background="@android:drawable/btn_dropdown" />
-
-    <EditText
-        android:id="@+id/enderecoAtual"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="14sp"
-        android:layout_below="@+id/linearLayout3"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" />
-
-    <EditText
-        android:id="@+id/pontoRef"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/enderecoAtual"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="Ponto de Referência"
-        android:inputType="textPersonName"
-        android:textSize="14sp" />
-
-    <Spinner
-        android:id="@+id/spinnerVeiculo"
-        android:layout_width="wrap_content"
-        android:layout_height="37dp"
-
-        android:layout_alignEnd="@+id/spinnerServico"
-        android:layout_alignLeft="@+id/spinnerServico"
-        android:layout_alignRight="@+id/spinnerServico"
-        android:layout_alignStart="@+id/spinnerServico"
-        android:layout_below="@+id/textView4"
-        android:layout_gravity="center_vertical"
-        android:background="@android:drawable/btn_dropdown" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Qual o seu veículo?"
-        android:textSize="14sp"
-        android:layout_below="@+id/spinnerServico"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Selecione Um Serviço:"
-        android:textSize="14sp"
-        android:layout_below="@+id/pontoRef"
-        android:layout_centerHorizontal="true" />
-
     <Button
         android:id="@+id/botSolicitar"
         android:layout_width="wrap_content"
@@ -111,21 +19,36 @@
         android:layout_marginBottom="11dp" />
 
     <TextView
-        android:id="@+id/namePartner"
+        android:id="@+id/nameMotorista"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:text=""
-        android:layout_below="@+id/spinnerVeiculo"
         android:layout_centerHorizontal="true" />
     <TextView
         android:id="@+id/tempoETA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="80dp"
         android:text=""
-        android:layout_below="@+id/namePartner"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/pontoRef"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="130dp"
+        android:text=""
+        android:layout_centerHorizontal="true" />
+
+    <Switch
+        android:id="@+id/onOff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/botSolicitar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="43dp"
+        android:text="Atendimento On/Off " />
 
 
 </RelativeLayout>

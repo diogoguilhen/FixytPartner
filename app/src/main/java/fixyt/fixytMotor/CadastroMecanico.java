@@ -28,13 +28,13 @@ public class CadastroMecanico implements Parcelable{
     // Cadastro particular do Perfil Mecanico
     private String perfilTipo;
     private String tipoServicoEmergencial;
-    private String tipoServicoAgendado;
     private String servicos;
 
     //INSERCAO DA PARTE DE VARIAVEIS DA LOCALIZAÇÃO
     private String vLatitude;
     private String vLongitude;
-    private String pontoReferencia;
+    private String vOnline;
+    private String vServico;
 
 
     public CadastroMecanico() {
@@ -66,10 +66,11 @@ public class CadastroMecanico implements Parcelable{
         this.servicos=parcel.readString();
 }
 
-    public CadastroMecanico(String vLatitude, String vLongitude, String pontoReferencia) {
+    public CadastroMecanico(String vLatitude, String vLongitude, String vOnline, String vServico) {
         this.vLatitude = vLatitude;
         this.vLongitude = vLongitude;
-        this.pontoReferencia = pontoReferencia;
+        this.vOnline = vOnline;
+        this.vServico = vServico;
     }
 
     //Metodo de descrição de conteudo do Parcelable
@@ -151,19 +152,20 @@ public class CadastroMecanico implements Parcelable{
 
     // REGISTRAR 3
 
-    public CadastroMecanico(String perfilTipo, String tipoServicoEmergencial, String tipoServicoAgendado, String servicos) {
+    public CadastroMecanico(String perfilTipo, String tipoServicoEmergencial/*String tipoServicoAgendado*/, String servicos) {
         this.perfilTipo = perfilTipo;
         this.tipoServicoEmergencial = tipoServicoEmergencial;
-        this.tipoServicoAgendado = tipoServicoAgendado;
+        //this.tipoServicoAgendado = tipoServicoAgendado;
         this.servicos = servicos;
     }
 
     // GPS
 
-    public CadastroMecanico(String vLatitude, String vLongitude) {
+    /*public CadastroMecanico(String vLatitude, String vLongitude) {
         this.vLatitude = vLatitude;
         this.vLongitude = vLongitude;
-    }
+
+    }*/
 
 
 // CADASTRO TOTAL
@@ -211,13 +213,13 @@ public class CadastroMecanico implements Parcelable{
         this.tipoServicoEmergencial = tipoServicoEmergencial;
     }
 
-    public String getTipoServicoAgendado() {
+    /*public String getTipoServicoAgendado() {
         return tipoServicoAgendado;
     }
 
     public void setTipoServicoAgendado(String tipoServicoAgendado) {
         this.tipoServicoAgendado = tipoServicoAgendado;
-    }
+    }*/
 
     public String getNome() {
         return nome;
@@ -375,11 +377,20 @@ public class CadastroMecanico implements Parcelable{
         this.vLongitude = vLongitude;
     }
 
-    public String getPontoReferencia() {
-        return pontoReferencia;
+    public String getvOnline() {
+        return vOnline;
     }
 
-    public void setPontoReferencia(String pontoReferencia) {
-        pontoReferencia = pontoReferencia;
+    public void setvOnline(String vOnline) {
+        this.vOnline = vOnline;
     }
+
+    public String getvServico() {
+        return vServico;
+    }
+
+    public void setvServico(String vServico) {
+        this.vServico = vServico;
+    }
+
 }
