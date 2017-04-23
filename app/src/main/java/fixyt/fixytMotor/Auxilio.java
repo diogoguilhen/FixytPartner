@@ -91,11 +91,58 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                 if(isChecked){
                     statusOnOff.setText("Na espera de chamados");
                     online = "1";
+                    //Começo da leitura child (em atendimento)
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference servicos = database.getReference();
+                    //Query para captar os servicos do Partner
+                    Query query2 = servicos.child("EmAtendimento");
+
+                    query2.addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(DataSnapshot snapshot, String s) {
+                            for(DataSnapshot alert : snapshot.getChildren()){
+                                System.out.println (  "piroca: " + snapshot.getKey());
+
+                                if(snapshot.getKey().toString().contains(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+
+                                    codChamado = snapshot.child("pontoDeReferencia").getValue().toString();
+                                    pontoReferencia.setText("Ponto de Referencia:" + snapshot.child("pontoDeReferencia").getValue().toString());
+                                    tempoEstimado.setText(snapshot.child("tempoEstimado").getValue().toString() + " Minutos até o seu cliente" );
+
+
+                                }
+
+                            }
+                        }
+
+                        @Override
+                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                        }
+
+                        @Override
+                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                        }
+
+                        @Override
+                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
 
 
                 }else{
                     statusOnOff.setText("Offline");
                     online = "-1";
+                    pontoReferencia.setText("");
+                    tempoEstimado.setText("");
+                    Toast.makeText(Auxilio.this, "Serviço Cancelado com Sucesso", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -103,7 +150,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
         if(statusOnOff.isChecked()){
             statusOnOff.setText("Na espera de chamados");
             online = "1";
-            //teste
+
             //Começo da leitura child (em atendimento)
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference servicos = database.getReference();
@@ -154,6 +201,9 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
         }else{
             statusOnOff.setText("Offline");
             online = "-1";
+            pontoReferencia.setText("");
+            tempoEstimado.setText("");
+            Toast.makeText(Auxilio.this, "Serviço Cancelado com Sucesso", Toast.LENGTH_SHORT).show();
         }
 
         context = getApplicationContext();
