@@ -116,6 +116,31 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                     for(DataSnapshot alert : snapshot.getChildren()){
                         System.out.println (  "piroca: " + snapshot.getKey());
                         if(snapshot.getKey().toString().contains(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                            /* então eu achei essa parada para fazer o sim ou não, mas este metodo
+                            esta em looping eterno ate percorrer todas as pirocas aqui...
+                             oque podemos fazer é adicionar neste dialogo se o cara que aceitar ou não mas para isso precisamos implementar o resultado e
+                             em uma variavel global para entao ele falar sim ou não
+
+                            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        switch (which){
+        case DialogInterface.BUTTON_POSITIVE:
+            //Yes button clicked
+            break;
+
+        case DialogInterface.BUTTON_NEGATIVE:
+            //No button clicked
+            break;
+        }
+    }
+};
+
+AlertDialog.Builder builder = new AlertDialog.Builder(context);
+builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+    .setNegativeButton("No", dialogClickListener).show();
+                             */
+
                             codChamado = snapshot.child("pontoDeReferencia").getValue().toString();
                             pontoReferencia.setText("Ponto de Referencia:" + snapshot.child("pontoDeReferencia").getValue().toString());
                             tempoEstimado.setText(snapshot.child("tempoEstimado").getValue().toString() + " Minutos até o seu cliente" );
