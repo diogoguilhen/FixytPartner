@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.Settings;
@@ -66,9 +67,6 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
     boolean GpsStatus ;
     public String codChamado = "";
     public String emAtendimento = "0";
-    private Button chamadoAceito;
-    private Button chamadoRecuso;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,152 +90,16 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
         pontoReferencia = (TextView) findViewById(R.id.pontoRef);
         tempoEstimado = (TextView) findViewById(R.id.tempoETA);
         statusOnOff = (Switch) findViewById(R.id.onOff);
-        chamadoAceito = (Button) findViewById(R.id.aceitarChamado);
-        chamadoRecuso = (Button) findViewById(R.id.recusarChamado);
 
 
 
 
         statusOnOff.setChecked(true);
-        statusOnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    statusOnOff.setText("Na espera de chamados");
-                    online = "1";
-                    //Começo da leitura child (em atendimento)
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference servicos = database.getReference();
-                    //Query para captar os servicos do Partner
-                    Query query2 = servicos.child("EmAtendimento");
 
-                    query2.addChildEventListener(new ChildEventListener() {
-                        @Override
-                        public void onChildAdded(DataSnapshot snapshot, String s) {
-                            for(DataSnapshot alert : snapshot.getChildren()){
-                                if(snapshot.getKey().toString().contains(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                                    if(emAtendimento == "1"){
-                                        online = "0";
-                                        codChamado = snapshot.child("pontoDeReferencia").getValue().toString();
-                                        pontoReferencia.setText("Ponto de Referencia:" + snapshot.child("pontoDeReferencia").getValue().toString());
-                                        tempoEstimado.setText(snapshot.child("tempoEstimado").getValue().toString() + " Minutos até o seu cliente" );
-                                        if(snapshot.child("tempoEstimado").getValue().toString() != null){
-                                            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    switch (which){
-                                                        case DialogInterface.BUTTON_POSITIVE:
-                                                            //Yes button clicked
-                                                            break;
-
-                                                        case DialogInterface.BUTTON_NEGATIVE:
-                                                            //No button clicked
-                                                            break;
-                                                    }
-                                                }
-                                            };
-
-                                            AlertDialog.Builder builder = new AlertDialog.Builder(Auxilio.this);
-                                            builder.setMessage("Cliente encontrado! Que deseja fazer?").setPositiveButton("Aceitar Chamado", dialogClickListener)
-                                                    .setNegativeButton("Recusar Chamado", dialogClickListener).show();
-                                        }
-                                    }
-                                }
-
-                            }
-                        }
-
-                        @Override
-                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                        }
-
-                        @Override
-                        public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                        }
-
-                        @Override
-                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-
-
-                }else{
-                    statusOnOff.setText("Offline");
-                    online = "0";
-                    //checkChamado = 0;
-                    pontoReferencia.setText("");
-                    tempoEstimado.setText("");
-                    Toast.makeText(Auxilio.this, "Serviço Cancelado com Sucesso", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        if(statusOnOff.isChecked()){
-            statusOnOff.setText("Na espera de chamados");
-            online = "1";
-
-            //Começo da leitura child (em atendimento)
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference servicos = database.getReference();
-            //Query para captar os servicos do Partner
-            Query query2 = servicos.child("EmAtendimento");
-
-            query2.addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot snapshot, String s) {
-                    for(DataSnapshot alert : snapshot.getChildren()){
-                        System.out.println (  "piroca: " + snapshot.getKey());
-
-                        if(snapshot.getKey().toString().contains(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                            if(emAtendimento == "1"){
-                                online = "0";
-                                codChamado = snapshot.child("pontoDeReferencia").getValue().toString();
-                                pontoReferencia.setText("Ponto de Referencia:" + snapshot.child("pontoDeReferencia").getValue().toString());
-                                tempoEstimado.setText(snapshot.child("tempoEstimado").getValue().toString() + " Minutos até o seu cliente" );
-                            }
-                        }
-
-                    }
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+        procurarMotoristas();
 
 
 
-        }else{
-            statusOnOff.setText("Offline");
-            online = "0";
-            pontoReferencia.setText("");
-            tempoEstimado.setText("");
-            Toast.makeText(Auxilio.this, "Serviço Cancelado com Sucesso", Toast.LENGTH_SHORT).show();
-        }
 
         context = getApplicationContext();
 
@@ -274,6 +136,183 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
 
         });
 
+    }
+
+    private void procurarMotoristas() {
+        if(statusOnOff.isChecked()){
+            statusOnOff.setText("Na espera de chamados");
+            online = "1";
+            //Começo da leitura child (em atendimento)
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference servicos = database.getReference();
+            //Query para captar os servicos do Partner
+            Query query2 = servicos.child("EmAtendimento");
+
+            query2.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot snapshot, String s) {
+                    for(DataSnapshot alert : snapshot.getChildren()){
+                        if(snapshot.getKey().toString().contains(FirebaseAuth.getInstance().getCurrentUser().getUid()) && emAtendimento == "0"){
+                            online = "0";
+                            emAtendimento = "1";
+                            pontoReferencia.setText("Ponto de Referencia:" + snapshot.child("pontoDeReferencia").getValue().toString());
+                            tempoEstimado.setText(snapshot.child("tempoEstimado").getValue().toString() + " Minutos até o seu cliente" );
+                            final String latMot = snapshot.child("latitudeMotorista").getValue().toString();
+                            final String longMot = snapshot.child("longitudeMotorista").getValue().toString();
+
+                            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    switch (which){
+                                        case DialogInterface.BUTTON_POSITIVE:
+                                            //Clicou Sim vai para o Waze!
+                                            String uri = "waze://?ll=" + latMot + "," + longMot +"&z=10";
+                                            startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+                                            break;
+
+                                        case DialogInterface.BUTTON_NEGATIVE:
+                                            //Clicou Não
+                                            emAtendimento = "0";
+                                            online = "1";
+                                            Toast.makeText(Auxilio.this, "Novamente aguardando chamados...", Toast.LENGTH_SHORT).show();
+                                            pontoReferencia.setText("");
+                                            tempoEstimado.setText("");
+                                            procurarMotoristas();
+                                            break;
+                                    }
+                                }
+                            };
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Auxilio.this);
+                            builder.setMessage("Cliente encontrado! Que deseja fazer? \n" + pontoReferencia.getText().toString() + "\nTempo Estimado de viagem: " + tempoEstimado.getText().toString()).setPositiveButton("Aceitar Chamado", dialogClickListener)
+                                    .setNegativeButton("Recusar Chamado", dialogClickListener).show();
+
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+
+
+
+        }else{
+            statusOnOff.setText("Offline");
+            online = "0";
+            pontoReferencia.setText("");
+            tempoEstimado.setText("");
+            Toast.makeText(Auxilio.this, "Serviço Cancelado com Sucesso", Toast.LENGTH_SHORT).show();
+        }
+
+        statusOnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    statusOnOff.setText("Na espera de chamados");
+                    online = "1";
+                    //Começo da leitura child (em atendimento)
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference servicos = database.getReference();
+                    //Query para captar os servicos do Partner
+                    Query query2 = servicos.child("EmAtendimento");
+
+                    query2.addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(DataSnapshot snapshot, String s) {
+                            for(DataSnapshot alert : snapshot.getChildren()){
+                                if(snapshot.getKey().toString().contains(FirebaseAuth.getInstance().getCurrentUser().getUid()) && emAtendimento == "0"){
+                                    online = "0";
+                                    emAtendimento = "1";
+                                    pontoReferencia.setText("Ponto de Referencia:" + snapshot.child("pontoDeReferencia").getValue().toString());
+                                    tempoEstimado.setText(snapshot.child("tempoEstimado").getValue().toString() + " Minutos até o seu cliente" );
+                                    final String latMot = snapshot.child("latitudeMotorista").getValue().toString();
+                                    final String longMot = snapshot.child("longitudeMotorista").getValue().toString();
+
+                                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            switch (which){
+                                                case DialogInterface.BUTTON_POSITIVE:
+                                                    //Clicou Sim vai para o Waze!
+                                                    String uri = "waze://?ll=" + latMot + "," + longMot +"&z=10";
+                                                    startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+                                                    break;
+
+                                                case DialogInterface.BUTTON_NEGATIVE:
+                                                    //Clicou Não
+                                                    emAtendimento = "0";
+                                                    online = "1";
+                                                    Toast.makeText(Auxilio.this, "Novamente aguardando chamados...", Toast.LENGTH_SHORT).show();
+                                                    pontoReferencia.setText("");
+                                                    tempoEstimado.setText("");
+                                                    procurarMotoristas();
+                                                    break;
+                                            }
+                                        }
+                                    };
+
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(Auxilio.this);
+                                    builder.setMessage("Cliente encontrado! Que deseja fazer? \n" + pontoReferencia.getText().toString() + "\nTempo Estimado de viagem: " + tempoEstimado.getText().toString()).setPositiveButton("Aceitar Chamado", dialogClickListener)
+                                            .setNegativeButton("Recusar Chamado", dialogClickListener).show();
+
+                                }
+
+                            }
+                        }
+
+                        @Override
+                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                        }
+
+                        @Override
+                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                        }
+
+                        @Override
+                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+
+                }else{
+                    statusOnOff.setText("Offline");
+                    online = "0";
+                    //checkChamado = 0;
+                    pontoReferencia.setText("");
+                    tempoEstimado.setText("");
+                    Toast.makeText(Auxilio.this, "Serviço Cancelado com Sucesso", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 
