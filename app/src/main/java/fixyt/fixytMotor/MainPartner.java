@@ -22,7 +22,6 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainPartner extends AppCompatActivity
         implements   View.OnClickListener ,NavigationView.OnNavigationItemSelectedListener {
 
-
     private FirebaseAuth firebaseAuth;
   //  private Button exit;
     private Button atendimentosEmergenciais;
