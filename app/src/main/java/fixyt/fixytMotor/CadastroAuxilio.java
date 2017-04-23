@@ -8,10 +8,15 @@ public class CadastroAuxilio {
     private String vOnline;
     private String vServico;
     private String vEmAtendimento;
+    private String vAtendimentoFinalizado;
 
     //Construtores
 
     public CadastroAuxilio(){ super();}
+
+    public CadastroAuxilio(String vAtendimentoFinalizado){
+        this.vAtendimentoFinalizado = vAtendimentoFinalizado;
+    }
 
     public CadastroAuxilio(String vLatitude, String vLongitude, String vOnline, String vServico, String vEmAtendimento) {
         this.vLatitude = vLatitude;
@@ -59,5 +64,13 @@ public class CadastroAuxilio {
 
     public void setvEmAtendimento(String vEmAtendimento) {
         this.vEmAtendimento = vEmAtendimento;
+    }
+
+    public String getvAtendimentoFinalizado() {
+        return vAtendimentoFinalizado;
+    }
+
+    public void setvAtendimentoFinalizado(String vAtendimentoFinalizado) {
+        this.vAtendimentoFinalizado = vAtendimentoFinalizado;
     }
 }

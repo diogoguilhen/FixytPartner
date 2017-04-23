@@ -33,7 +33,7 @@
             android:id="@+id/onOff"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/botSolicitar"
+            android:layout_above="@+id/botFimAtendimento"
             android:layout_centerHorizontal="false"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
@@ -48,13 +48,14 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/botSolicitar"
+        android:id="@+id/botFimAtendimento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Solicitar Auxilio"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="11dp" />
+        android:layout_marginBottom="11dp"
+        android:text="Finalizar Atendimento"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/nameMotorista"

@@ -38,7 +38,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 
@@ -67,6 +69,8 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
     boolean GpsStatus ;
     public String codChamado = "";
     public String emAtendimento = "0";
+    private Button endService;
+    private String finalizar = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +94,9 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
         pontoReferencia = (TextView) findViewById(R.id.pontoRef);
         tempoEstimado = (TextView) findViewById(R.id.tempoETA);
         statusOnOff = (Switch) findViewById(R.id.onOff);
+        endService = (Button) findViewById(R.id.botFimAtendimento);
 
-
+        endService.setOnClickListener(this);
 
 
         statusOnOff.setChecked(true);
@@ -155,6 +160,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                         if(snapshot.getKey().toString().contains(FirebaseAuth.getInstance().getCurrentUser().getUid()) && emAtendimento == "0"){
                             online = "0";
                             emAtendimento = "1";
+                            finalizar = snapshot.getKey().toString();
                             pontoReferencia.setText("Ponto de Referencia:" + snapshot.child("pontoDeReferencia").getValue().toString());
                             tempoEstimado.setText(snapshot.child("tempoEstimado").getValue().toString() + " Minutos até o seu cliente" );
                             final String latMot = snapshot.child("latitudeMotorista").getValue().toString();
@@ -168,6 +174,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                                             //Clicou Sim vai para o Waze!
                                             String uri = "waze://?ll=" + latMot + "," + longMot +"&z=10";
                                             startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+
                                             break;
 
                                         case DialogInterface.BUTTON_NEGATIVE:
@@ -335,6 +342,20 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
 
     @Override
     public void onClick(View v) {
+        if(v == endService){
+            finalizarChamado();
+            Toast.makeText(Auxilio.this, "Serviço Finalizado", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void finalizarChamado() {
+
+        FirebaseDatabase databaseName = FirebaseDatabase.getInstance();
+        DatabaseReference noAtendimento = databaseName.getReference("AtendimentoFinalizado/");
+
+        CadastroAuxilio endingAtendimento = new CadastroAuxilio("1");
+
+        noAtendimento.child(finalizar).setValue(endingAtendimento);
 
     }
 
