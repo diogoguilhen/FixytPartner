@@ -114,6 +114,7 @@
         <item>Rodízio de Pneus</item>
     </string-array>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_main_partner">MainPartner</string>
 
 
 </resources>

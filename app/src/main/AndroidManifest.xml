@@ -48,6 +48,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".MainPartner"
+            android:label="@string/title_activity_main_partner"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
