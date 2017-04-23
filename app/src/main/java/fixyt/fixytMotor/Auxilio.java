@@ -3,6 +3,7 @@ package fixyt.fixytMotor;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -15,7 +16,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -35,6 +38,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+
 
 
 public class Auxilio extends FragmentActivity implements  View.OnClickListener,
@@ -59,6 +65,9 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
     Context context;
     boolean GpsStatus ;
     public String codChamado = "";
+    public String emAtendimento = "0";
+    private Button chamadoAceito;
+    private Button chamadoRecuso;
 
 
     @Override
@@ -83,6 +92,11 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
         pontoReferencia = (TextView) findViewById(R.id.pontoRef);
         tempoEstimado = (TextView) findViewById(R.id.tempoETA);
         statusOnOff = (Switch) findViewById(R.id.onOff);
+        chamadoAceito = (Button) findViewById(R.id.aceitarChamado);
+        chamadoRecuso = (Button) findViewById(R.id.recusarChamado);
+
+
+
 
         statusOnOff.setChecked(true);
         statusOnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -101,15 +115,33 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                         @Override
                         public void onChildAdded(DataSnapshot snapshot, String s) {
                             for(DataSnapshot alert : snapshot.getChildren()){
-                                System.out.println (  "piroca: " + snapshot.getKey());
-
                                 if(snapshot.getKey().toString().contains(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    if(emAtendimento == "1"){
+                                        online = "0";
+                                        codChamado = snapshot.child("pontoDeReferencia").getValue().toString();
+                                        pontoReferencia.setText("Ponto de Referencia:" + snapshot.child("pontoDeReferencia").getValue().toString());
+                                        tempoEstimado.setText(snapshot.child("tempoEstimado").getValue().toString() + " Minutos até o seu cliente" );
+                                        if(snapshot.child("tempoEstimado").getValue().toString() != null){
+                                            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    switch (which){
+                                                        case DialogInterface.BUTTON_POSITIVE:
+                                                            //Yes button clicked
+                                                            break;
 
-                                    codChamado = snapshot.child("pontoDeReferencia").getValue().toString();
-                                    pontoReferencia.setText("Ponto de Referencia:" + snapshot.child("pontoDeReferencia").getValue().toString());
-                                    tempoEstimado.setText(snapshot.child("tempoEstimado").getValue().toString() + " Minutos até o seu cliente" );
+                                                        case DialogInterface.BUTTON_NEGATIVE:
+                                                            //No button clicked
+                                                            break;
+                                                    }
+                                                }
+                                            };
 
-
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(Auxilio.this);
+                                            builder.setMessage("Cliente encontrado! Que deseja fazer?").setPositiveButton("Aceitar Chamado", dialogClickListener)
+                                                    .setNegativeButton("Recusar Chamado", dialogClickListener).show();
+                                        }
+                                    }
                                 }
 
                             }
@@ -139,7 +171,8 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
 
                 }else{
                     statusOnOff.setText("Offline");
-                    online = "-1";
+                    online = "0";
+                    //checkChamado = 0;
                     pontoReferencia.setText("");
                     tempoEstimado.setText("");
                     Toast.makeText(Auxilio.this, "Serviço Cancelado com Sucesso", Toast.LENGTH_SHORT).show();
@@ -164,12 +197,12 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                         System.out.println (  "piroca: " + snapshot.getKey());
 
                         if(snapshot.getKey().toString().contains(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-
-                            codChamado = snapshot.child("pontoDeReferencia").getValue().toString();
-                            pontoReferencia.setText("Ponto de Referencia:" + snapshot.child("pontoDeReferencia").getValue().toString());
-                            tempoEstimado.setText(snapshot.child("tempoEstimado").getValue().toString() + " Minutos até o seu cliente" );
-
-
+                            if(emAtendimento == "1"){
+                                online = "0";
+                                codChamado = snapshot.child("pontoDeReferencia").getValue().toString();
+                                pontoReferencia.setText("Ponto de Referencia:" + snapshot.child("pontoDeReferencia").getValue().toString());
+                                tempoEstimado.setText(snapshot.child("tempoEstimado").getValue().toString() + " Minutos até o seu cliente" );
+                            }
                         }
 
                     }
@@ -200,7 +233,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
 
         }else{
             statusOnOff.setText("Offline");
-            online = "-1";
+            online = "0";
             pontoReferencia.setText("");
             tempoEstimado.setText("");
             Toast.makeText(Auxilio.this, "Serviço Cancelado com Sucesso", Toast.LENGTH_SHORT).show();
@@ -336,10 +369,11 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
         String vLongitude = String.valueOf(location.getLongitude());
         String vOnline = online;
         String vServico = servicoString;
+        String vEmAtendimento = emAtendimento;
 
 
 
-        CadastroMecanico diogoLindo = new CadastroMecanico(vLatitude, vLongitude, vOnline, vServico);
+        CadastroAuxilio diogoLindo = new CadastroAuxilio(vLatitude, vLongitude, vOnline, vServico, vEmAtendimento);
 
 
         localizacao.child(key).setValue(diogoLindo);

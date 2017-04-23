@@ -35,6 +35,7 @@ public class CadastroMecanico implements Parcelable{
     private String vLongitude;
     private String vOnline;
     private String vServico;
+    private String vEmAtendimento;
 
 
     public CadastroMecanico() {
@@ -65,13 +66,6 @@ public class CadastroMecanico implements Parcelable{
         this.perfilTipo=parcel.readString();
         this.servicos=parcel.readString();
 }
-
-    public CadastroMecanico(String vLatitude, String vLongitude, String vOnline, String vServico) {
-        this.vLatitude = vLatitude;
-        this.vLongitude = vLongitude;
-        this.vOnline = vOnline;
-        this.vServico = vServico;
-    }
 
     //Metodo de descrição de conteudo do Parcelable
     @Override
@@ -359,38 +353,6 @@ public class CadastroMecanico implements Parcelable{
 
     public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
-    }
-
-    public String getvLatitude() {
-        return vLatitude;
-    }
-
-    public void setvLatitude(String vLatitude) {
-        this.vLatitude = vLatitude;
-    }
-
-    public String getvLongitude() {
-        return vLongitude;
-    }
-
-    public void setvLongitude(String vLongitude) {
-        this.vLongitude = vLongitude;
-    }
-
-    public String getvOnline() {
-        return vOnline;
-    }
-
-    public void setvOnline(String vOnline) {
-        this.vOnline = vOnline;
-    }
-
-    public String getvServico() {
-        return vServico;
-    }
-
-    public void setvServico(String vServico) {
-        this.vServico = vServico;
     }
 
 }

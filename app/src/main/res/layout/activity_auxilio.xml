@@ -83,5 +83,29 @@
         android:text=""
         android:textColor="@android:color/background_light" />
 
+    <Button
+        android:id="@+id/aceitarChamado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_toLeftOf="@+id/pontoRef"
+        android:layout_toStartOf="@+id/pontoRef"
+        android:text="Aceitar Chamado"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/recusarChamado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/aceitarChamado"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="13dp"
+        android:text="Recusar Chamado"
+        android:visibility="invisible" />
+
 
 </RelativeLayout>
