@@ -161,6 +161,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                             online = "0";
                             emAtendimento = "1";
                             finalizar = snapshot.getKey().toString();
+                            codChamado = snapshot.getKey().toString();
                             pontoReferencia.setText("Ponto de Referencia:" + snapshot.child("pontoDeReferencia").getValue().toString());
                             tempoEstimado.setText(snapshot.child("tempoEstimado").getValue().toString() + " Minutos até o seu cliente" );
                             final String latMot = snapshot.child("latitudeMotorista").getValue().toString();
@@ -172,9 +173,19 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                                     switch (which){
                                         case DialogInterface.BUTTON_POSITIVE:
                                             //Clicou Sim vai para o Waze!
-                                            String uri = "waze://?ll=" + latMot + "," + longMot +"&z=10";
-                                            startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+                                            //String uri = "waze://?ll=" + latMot + "," + longMot +"&z=10";
+                                            //startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+                                            endService.setVisibility(View.VISIBLE);
+                                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                            DatabaseReference aceitacao = database.getReference("EmAtendimento/" + codChamado);
 
+                                            userKey = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                            String key = userKey;
+
+                                            //Atualização
+                                            HashMap<String, Object> statusAccept = new HashMap<>();
+                                            statusAccept.put("statusAceitacao", "1");
+                                            aceitacao.updateChildren(statusAccept);
                                             break;
 
                                         case DialogInterface.BUTTON_NEGATIVE:
@@ -250,6 +261,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                                 if(snapshot.getKey().toString().contains(FirebaseAuth.getInstance().getCurrentUser().getUid()) && emAtendimento == "0"){
                                     online = "0";
                                     emAtendimento = "1";
+                                    codChamado = snapshot.getKey().toString();
                                     pontoReferencia.setText("Ponto de Referencia:" + snapshot.child("pontoDeReferencia").getValue().toString());
                                     tempoEstimado.setText(snapshot.child("tempoEstimado").getValue().toString() + " Minutos até o seu cliente" );
                                     final String latMot = snapshot.child("latitudeMotorista").getValue().toString();
@@ -261,8 +273,19 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                                             switch (which){
                                                 case DialogInterface.BUTTON_POSITIVE:
                                                     //Clicou Sim vai para o Waze!
-                                                    String uri = "waze://?ll=" + latMot + "," + longMot +"&z=10";
-                                                    startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+                                                    //String uri = "waze://?ll=" + latMot + "," + longMot +"&z=10";
+                                                    //startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+                                                    endService.setVisibility(View.VISIBLE);
+                                                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                                    DatabaseReference aceitacao = database.getReference("EmAtendimento/" + codChamado);
+
+                                                    userKey = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                                    String key = userKey;
+
+                                                    //Atualização
+                                                    HashMap<String, Object> statusAccept = new HashMap<>();
+                                                    statusAccept.put("statusAceitacao", "1");
+                                                    aceitacao.updateChildren(statusAccept);
                                                     break;
 
                                                 case DialogInterface.BUTTON_NEGATIVE:
@@ -323,6 +346,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
     }
 
 
+
     private void CheckGpsStatus() {
         locationManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
 
@@ -344,11 +368,14 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
     public void onClick(View v) {
         if(v == endService){
             finalizarChamado();
+            endService.setVisibility(View.INVISIBLE);
             Toast.makeText(Auxilio.this, "Serviço Finalizado", Toast.LENGTH_SHORT).show();
+            procurarMotoristas();
         }
     }
 
     private void finalizarChamado() {
+
 
         FirebaseDatabase databaseName = FirebaseDatabase.getInstance();
         DatabaseReference noAtendimento = databaseName.getReference("AtendimentoFinalizado/");
@@ -356,6 +383,10 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
         CadastroAuxilio endingAtendimento = new CadastroAuxilio("1");
 
         noAtendimento.child(finalizar).setValue(endingAtendimento);
+        pontoReferencia.setText("");
+        tempoEstimado.setText("");
+        emAtendimento = "0";
+
 
     }
 
@@ -433,10 +464,16 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
 
 
 
-        CadastroAuxilio diogoLindo = new CadastroAuxilio(vLatitude, vLongitude, vOnline, vServico, vEmAtendimento);
-
-
-        localizacao.child(key).setValue(diogoLindo);
+        //CadastroAuxilio diogoLindo = new CadastroAuxilio(vLatitude, vLongitude, vOnline, vServico, vEmAtendimento);
+        //Latitude
+        HashMap<String, Object> latitude = new HashMap<>();
+        latitude.put("vLatitude", location.getLatitude());
+        localizacao.child(key).updateChildren(latitude);
+        //Longitude
+        HashMap<String, Object> longitude = new HashMap<>();
+        longitude.put("vLongitude", location.getLongitude());
+        localizacao.child(key).updateChildren(longitude);
+        //localizacao.child(key).setValue(diogoLindo);
         }
 }
 
