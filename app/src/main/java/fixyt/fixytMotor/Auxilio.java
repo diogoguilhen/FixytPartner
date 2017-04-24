@@ -71,6 +71,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
     public String emAtendimento = "0";
     private Button endService;
     private String finalizar = "";
+    private String motoristasIndesejados = " ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,7 +158,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                 @Override
                 public void onChildAdded(DataSnapshot snapshot, String s) {
                     for(DataSnapshot alert : snapshot.getChildren()){
-                        if(snapshot.getKey().toString().contains(FirebaseAuth.getInstance().getCurrentUser().getUid()) && emAtendimento == "0"){
+                        if(snapshot.getKey().toString().contains(FirebaseAuth.getInstance().getCurrentUser().getUid()) && emAtendimento == "0" && !(motoristasIndesejados.contains(snapshot.getKey().toString()))){
                             online = "0";
                             emAtendimento = "1";
                             finalizar = snapshot.getKey().toString();
@@ -195,6 +196,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                                             Toast.makeText(Auxilio.this, "Novamente aguardando chamados...", Toast.LENGTH_SHORT).show();
                                             pontoReferencia.setText("");
                                             tempoEstimado.setText("");
+                                            motoristasIndesejados = motoristasIndesejados + " " + finalizar;
                                             procurarMotoristas();
                                             break;
                                     }
@@ -239,7 +241,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
             online = "0";
             pontoReferencia.setText("");
             tempoEstimado.setText("");
-            Toast.makeText(Auxilio.this, "Serviço Cancelado com Sucesso", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Auxilio.this, "Status : Offline", Toast.LENGTH_SHORT).show();
         }
 
         statusOnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -258,9 +260,10 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                         @Override
                         public void onChildAdded(DataSnapshot snapshot, String s) {
                             for(DataSnapshot alert : snapshot.getChildren()){
-                                if(snapshot.getKey().toString().contains(FirebaseAuth.getInstance().getCurrentUser().getUid()) && emAtendimento == "0"){
+                                if(snapshot.getKey().toString().contains(FirebaseAuth.getInstance().getCurrentUser().getUid()) && emAtendimento == "0" && !(motoristasIndesejados.contains(finalizar))){
                                     online = "0";
                                     emAtendimento = "1";
+                                    finalizar = snapshot.getKey().toString();
                                     codChamado = snapshot.getKey().toString();
                                     pontoReferencia.setText("Ponto de Referencia:" + snapshot.child("pontoDeReferencia").getValue().toString());
                                     tempoEstimado.setText(snapshot.child("tempoEstimado").getValue().toString() + " Minutos até o seu cliente" );
@@ -295,6 +298,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                                                     Toast.makeText(Auxilio.this, "Novamente aguardando chamados...", Toast.LENGTH_SHORT).show();
                                                     pontoReferencia.setText("");
                                                     tempoEstimado.setText("");
+                                                    motoristasIndesejados = motoristasIndesejados + " " + finalizar;
                                                     procurarMotoristas();
                                                     break;
                                             }
@@ -333,13 +337,13 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
 
 
 
+
                 }else{
                     statusOnOff.setText("Offline");
                     online = "0";
-                    //checkChamado = 0;
                     pontoReferencia.setText("");
                     tempoEstimado.setText("");
-                    Toast.makeText(Auxilio.this, "Serviço Cancelado com Sucesso", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Auxilio.this, "Status : Offline", Toast.LENGTH_SHORT).show();
                 }
             }
         });
