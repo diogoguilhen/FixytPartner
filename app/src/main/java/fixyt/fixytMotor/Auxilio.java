@@ -391,7 +391,6 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
         tempoEstimado.setText("");
         emAtendimento = "0";
 
-
     }
 
     @Override
