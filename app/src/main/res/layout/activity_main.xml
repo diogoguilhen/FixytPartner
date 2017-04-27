@@ -55,22 +55,13 @@
     <Button
         android:id="@+id/botaoAuxilio"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/botaoCarro"
         android:layout_marginTop="168dp"
         android:elevation="0dp"
         android:text="Atendimentos Emergenciais" />
-
-    <Button
-        android:id="@+id/botaoAgendar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/botaoAuxilio"
-        android:text="Agenda de Serviços" />
 
 
 </RelativeLayout>
