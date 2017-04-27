@@ -23,7 +23,7 @@ public class PreLogin extends AppCompatActivity {
         firebasAuth = FirebaseAuth.getInstance();
         if(firebasAuth.getCurrentUser() != null){
             finish();
-            startActivity(new Intent(this, MainPartner.class));
+            startActivity(new Intent(this, Main.class));
         }
 
 
