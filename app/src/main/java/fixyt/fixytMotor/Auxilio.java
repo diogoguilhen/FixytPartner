@@ -424,6 +424,8 @@ private void setPrimeroLogin ()  {
 
         CadastroAuxilio endingAtendimento = new CadastroAuxilio("1");
 
+
+
         noFinalAtendimento.child(finalizar).setValue(endingAtendimento);
         noFinalAtendimento.child(finalizar).setValue(null);
         noAtendimento.setValue(null);
