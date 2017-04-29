@@ -425,7 +425,7 @@ private void setPrimeroLogin ()  {
         CadastroAuxilio endingAtendimento = new CadastroAuxilio("1");
 
         noFinalAtendimento.child(finalizar).setValue(endingAtendimento);
-        noAtendimento.child(finalizar).setValue(null);
+        noAtendimento.setValue(null);
         pontoReferencia.setText("");
         tempoEstimado.setText("");
         emAtendimento = "0";
@@ -510,7 +510,7 @@ private void setPrimeroLogin ()  {
 
 
         /// SERVICOS ATUALIZADOS DESSA PORRA TODA
-        if (servicoString != "" && servicoGravando == false ){
+        if (servicoString != "" && servicoString != null && servicoGravando == false ){
 
             //Latitude
             HashMap<String, Object> servicoBoladao = new HashMap<>();
