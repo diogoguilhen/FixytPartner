@@ -37,6 +37,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -68,15 +69,23 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
     private String finalizar = "";
     private String motoristasIndesejados = " ";
     public boolean vPrimeiraVez = false;
+    public boolean servicoGravando = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auxilio);
 
+
         firebaseAuth = FirebaseAuth.getInstance();
         if (firebaseAuth.getCurrentUser() == null) {
             finish();
             startActivity(new Intent(this, PreLogin.class));
+        }
+        try {
+            sergioLindo();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         //Inicio Codigo
@@ -97,10 +106,6 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
 
         statusOnOff.setChecked(true);
 
-
-
-
-
         context = getApplicationContext();
 
         CheckGpsStatus();
@@ -116,25 +121,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
         }
         buildGoogleApiClient();
 
-        // INICIO DE PEGAR OS SERVICOS DO BANCO
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference servicos = database.getReference();
-        //Query para captar os servicos do Partner
-        Query query1 = servicos.child("/Partner/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/servicos");
 
-        query1.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //Passar os dados para a interface grafica
-                servicoString = (String) dataSnapshot.getValue();
-            }
-
-            public void onCancelled(DatabaseError databaseError) {
-                //Se ocorrer um erro
-                databaseError.getMessage();
-            }
-
-        });
         procurarMotoristas();
     }
 private void setPrimeroLogin ()  {
@@ -148,7 +135,7 @@ private void setPrimeroLogin ()  {
         String vLatitude = "" ;
         String vLongitude = "";
         String vOnline = "1";
-        String vServico = servicoString ;
+        String vServico = "" ;
         String vEmAtendimento = emAtendimento;
 
         CadastroAuxilio diogoLindao = new CadastroAuxilio(vLatitude, vLongitude, vOnline, vServico, vEmAtendimento  );
@@ -158,6 +145,37 @@ private void setPrimeroLogin ()  {
         vPrimeiraVez = true;
 
 };
+
+     private void sergioLindo () throws IOException {
+        // INICIO DE PEGAR OS SERVICOS DO BANCO
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference servicos = database.getReference();
+
+         //Query para captar os servicos do Partner
+        Query query1 = servicos.child("Partner/" + FirebaseAuth.getInstance().getCurrentUser().getUid() );
+
+        query1.addValueEventListener(new ValueEventListener() {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Passar os dados para a interface grafica
+
+                servicoString =   dataSnapshot.child("servicos").getValue().toString() ;
+
+                System.out.println("Sergio Lindo: " + servicoString);
+
+            }
+
+            public void onCancelled(DatabaseError databaseError) {
+                //Se ocorrer um erro
+                databaseError.getMessage();
+                System.out.println("Sergio Lindo onCancelled: " + servicoString);
+
+            }
+
+        });
+
+
+    } ;
+
     private void procurarMotoristas() {
         if(statusOnOff.isChecked()){
             statusOnOff.setText("Na espera de chamados");
@@ -166,6 +184,7 @@ private void setPrimeroLogin ()  {
                 setPrimeroLogin();
                 vPrimeiraVez = true;
             };
+
             //Começo da leitura child (em atendimento)
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference servicos = database.getReference();
@@ -472,6 +491,8 @@ private void setPrimeroLogin ()  {
     }
 
 
+
+
     @Override
     public void onLocationChanged(Location location) {
         mLastLocation = location;
@@ -487,6 +508,17 @@ private void setPrimeroLogin ()  {
         String vServico = servicoString;
         String vEmAtendimento = emAtendimento;
 
+
+        /// SERVICOS ATUALIZADOS DESSA PORRA TODA
+        if (servicoString != "" && servicoGravando == false ){
+
+            //Latitude
+            HashMap<String, Object> servicoBoladao = new HashMap<>();
+            servicoBoladao.put("vServico", servicoString);
+            localizacao.child(key).updateChildren(servicoBoladao);
+
+            servicoGravando = true;
+        }
 
 
         //CadastroAuxilio diogoLindo = new CadastroAuxilio(vLatitude, vLongitude, vOnline, vServico, vEmAtendimento);
