@@ -425,7 +425,8 @@ private void setPrimeroLogin ()  {
         CadastroAuxilio endingAtendimento = new CadastroAuxilio("1");
 
         noFinalAtendimento.child(finalizar).setValue(endingAtendimento);
-        noAtendimento.child(finalizar).setValue(null);
+        noFinalAtendimento.child(finalizar).setValue(null);
+        noAtendimento.setValue(null);
         pontoReferencia.setText("");
         tempoEstimado.setText("");
         emAtendimento = "0";
