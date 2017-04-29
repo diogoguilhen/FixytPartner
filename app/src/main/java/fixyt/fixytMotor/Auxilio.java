@@ -41,8 +41,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-
-
 public class Auxilio extends FragmentActivity implements  View.OnClickListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
@@ -69,7 +67,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
     private Button endService;
     private String finalizar = "";
     private String motoristasIndesejados = " ";
-
+    public boolean vPrimeiraVez = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +97,6 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
 
         statusOnOff.setChecked(true);
 
-        procurarMotoristas();
 
 
 
@@ -138,13 +135,37 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
             }
 
         });
-
+        procurarMotoristas();
     }
+private void setPrimeroLogin ()  {
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference primeiraVezBolada = database.getReference("Localizacoes/Partner");
+
+        userKey = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String key = userKey;
+
+        String vLatitude = "" ;
+        String vLongitude = "";
+        String vOnline = "1";
+        String vServico = servicoString ;
+        String vEmAtendimento = emAtendimento;
+
+        CadastroAuxilio diogoLindao = new CadastroAuxilio(vLatitude, vLongitude, vOnline, vServico, vEmAtendimento  );
+
+        primeiraVezBolada.child(key).setValue(diogoLindao);
+
+        vPrimeiraVez = true;
+
+};
     private void procurarMotoristas() {
         if(statusOnOff.isChecked()){
             statusOnOff.setText("Na espera de chamados");
             online = "1";
+            if(statusOnOff.isChecked() && vPrimeiraVez == false) {
+                setPrimeroLogin();
+                vPrimeiraVez = true;
+            };
             //Começo da leitura child (em atendimento)
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference servicos = database.getReference();
@@ -479,6 +500,11 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
         localizacao.child(key).updateChildren(longitude);
         //localizacao.child(key).setValue(diogoLindo);
         }
+
+
+
+
+
 }
 
 
