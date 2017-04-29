@@ -12,6 +12,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth firebaseAuth;
     private Button logOut;
     private Button perfilUser;
+    private Button atendimentosEmergenciais;
 
 
     @Override
@@ -28,10 +29,12 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
 
         logOut = (Button) findViewById(R.id.botaoLogout);
         perfilUser = (Button) findViewById(R.id.botaoPerfil);
+        atendimentosEmergenciais = (Button) findViewById(R.id.botaoAuxilio);
 
 
         logOut.setOnClickListener(this);
         perfilUser.setOnClickListener(this);
+        atendimentosEmergenciais.setOnClickListener(this);
 
     }
 
@@ -45,6 +48,9 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
         if(v == perfilUser){
             finish();
             startActivity(new Intent(this, Perfil.class));
+        }
+        if(v == atendimentosEmergenciais){
+            startActivity(new Intent(this, Auxilio.class));
         }
 
     }

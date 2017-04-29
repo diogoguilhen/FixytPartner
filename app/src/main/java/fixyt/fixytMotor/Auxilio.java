@@ -379,22 +379,26 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
 
 
         FirebaseDatabase databaseName = FirebaseDatabase.getInstance();
-        DatabaseReference noAtendimento = databaseName.getReference("AtendimentoFinalizado/");
+        DatabaseReference noFinalAtendimento = databaseName.getReference("AtendimentoFinalizado/");
+        DatabaseReference noAtendimento = databaseName.getReference("EmAtendimento/" + finalizar);
 
         CadastroAuxilio endingAtendimento = new CadastroAuxilio("1");
 
-        noAtendimento.child(finalizar).setValue(endingAtendimento);
+        noFinalAtendimento.child(finalizar).setValue(endingAtendimento);
+        noAtendimento.child(finalizar).setValue(null);
         pontoReferencia.setText("");
         tempoEstimado.setText("");
         emAtendimento = "0";
+
+
 
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(20000);
-        mLocationRequest.setFastestInterval(20000);
+        mLocationRequest.setInterval(10000);
+        mLocationRequest.setFastestInterval(10000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
