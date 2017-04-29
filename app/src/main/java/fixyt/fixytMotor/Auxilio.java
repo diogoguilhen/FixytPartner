@@ -154,7 +154,7 @@ private void setPrimeroLogin ()  {
          //Query para captar os servicos do Partner
         Query query1 = servicos.child("Partner/" + FirebaseAuth.getInstance().getCurrentUser().getUid() );
 
-        query1.addValueEventListener(new ValueEventListener() {
+        query1.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Passar os dados para a interface grafica
 
