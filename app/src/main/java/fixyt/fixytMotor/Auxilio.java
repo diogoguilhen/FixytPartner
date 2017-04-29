@@ -513,7 +513,7 @@ private void setPrimeroLogin ()  {
 
 
         /// SERVICOS ATUALIZADOS DESSA PORRA TODA
-        if (servicoString != "" && servicoGravando == false ){
+        if (servicoString != null && servicoString != "" && servicoGravando == false ){
 
             //Latitude
             HashMap<String, Object> servicoBoladao = new HashMap<>();
