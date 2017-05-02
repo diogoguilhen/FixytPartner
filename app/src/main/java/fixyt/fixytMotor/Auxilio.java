@@ -83,7 +83,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
             startActivity(new Intent(this, PreLogin.class));
         }
         try {
-            sergioLindo();
+            pegarServicos();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -146,7 +146,7 @@ private void setPrimeroLogin ()  {
 
 };
 
-     private void sergioLindo () throws IOException {
+     private void pegarServicos() throws IOException {
         // INICIO DE PEGAR OS SERVICOS DO BANCO
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference servicos = database.getReference();
@@ -157,18 +157,12 @@ private void setPrimeroLogin ()  {
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Passar os dados para a interface grafica
-
                 servicoString =   dataSnapshot.child("servicos").getValue().toString() ;
-
-                System.out.println("Sergio Lindo: " + servicoString);
-
             }
 
             public void onCancelled(DatabaseError databaseError) {
                 //Se ocorrer um erro
                 databaseError.getMessage();
-                System.out.println("Sergio Lindo onCancelled: " + servicoString);
-
             }
 
         });
@@ -178,15 +172,21 @@ private void setPrimeroLogin ()  {
 
     private void procurarMotoristas() {
         if(statusOnOff.isChecked()){
+            //
             statusOnOff.setText("Na espera de chamados");
             online = "1";
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference statuses = database.getReference("/Localizacoes/Partner/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
+            HashMap<String, Object> vOnline = new HashMap<>();
+            vOnline.put("vOnline", "1");
+            statuses.updateChildren(vOnline);
+
             if(statusOnOff.isChecked() && vPrimeiraVez == false) {
                 setPrimeroLogin();
                 vPrimeiraVez = true;
             };
 
             //Começo da leitura child (em atendimento)
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference servicos = database.getReference();
             //Query para captar os servicos do Partner
             Query query2 = servicos.child("EmAtendimento");
@@ -224,10 +224,30 @@ private void setPrimeroLogin ()  {
                                             HashMap<String, Object> statusAccept = new HashMap<>();
                                             statusAccept.put("statusAceitacao", "1");
                                             aceitacao.updateChildren(statusAccept);
+
+
+                                            //Atualizando Status vOnline e vEmAtendmimento
+                                            DatabaseReference aceite = database.getReference("/Localizacoes/Partner" + FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                            HashMap<String, Object> statusOnline = new HashMap<>();
+                                            statusOnline.put("vOnline", "0");
+                                            aceite.updateChildren(statusOnline);
+                                            HashMap<String, Object> statusAtendimento = new HashMap<>();
+                                            statusAtendimento.put("vEmAtendimento", "1");
+                                            aceite.updateChildren(statusAtendimento);
                                             break;
 
                                         case DialogInterface.BUTTON_NEGATIVE:
                                             //Clicou Não
+                                            FirebaseDatabase db = FirebaseDatabase.getInstance();
+                                            DatabaseReference aceita = db.getReference("/Localizacoes/Partner/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                            //Atualizando Status vOnline e vEmAtendmimento
+                                            HashMap<String, Object> statusOn = new HashMap<>();
+                                            statusOn.put("vOnline", "1");
+                                            aceita.updateChildren(statusOn);
+                                            HashMap<String, Object> statusAt = new HashMap<>();
+                                            statusAt.put("vEmAtendimento", "0");
+                                            aceita.updateChildren(statusAt);
+
                                             emAtendimento = "0";
                                             online = "1";
                                             Toast.makeText(Auxilio.this, "Novamente aguardando chamados...", Toast.LENGTH_SHORT).show();
@@ -275,6 +295,11 @@ private void setPrimeroLogin ()  {
 
         }else{
             statusOnOff.setText("Offline");
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference statuses = database.getReference("/Localizacoes/Partner" + FirebaseAuth.getInstance().getCurrentUser().getUid());
+            HashMap<String, Object> vOnline = new HashMap<>();
+            vOnline.put("vOnline", "0");
+            statuses.updateChildren(vOnline);
             online = "0";
             pontoReferencia.setText("");
             tempoEstimado.setText("");
@@ -287,8 +312,12 @@ private void setPrimeroLogin ()  {
                 if(isChecked){
                     statusOnOff.setText("Na espera de chamados");
                     online = "1";
-                    //Começo da leitura child (em atendimento)
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference statuses = database.getReference("/Localizacoes/Partner/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    HashMap<String, Object> vOnline = new HashMap<>();
+                    vOnline.put("vOnline", "1");
+                    statuses.updateChildren(vOnline);
+                    //Começo da leitura child (em atendimento)
                     DatabaseReference servicos = database.getReference();
                     //Query para captar os servicos do Partner
                     Query query2 = servicos.child("EmAtendimento");
@@ -317,7 +346,7 @@ private void setPrimeroLogin ()  {
                                                     //startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
                                                     endService.setVisibility(View.VISIBLE);
                                                     FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                                    DatabaseReference aceitacao = database.getReference("EmAtendimento/" + codChamado);
+                                                    DatabaseReference aceitacao = database.getReference("/Localizacoes/Partner/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                                                     userKey = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                                     String key = userKey;
@@ -326,10 +355,26 @@ private void setPrimeroLogin ()  {
                                                     HashMap<String, Object> statusAccept = new HashMap<>();
                                                     statusAccept.put("statusAceitacao", "1");
                                                     aceitacao.updateChildren(statusAccept);
+                                                    //Atualizando Status vOnline e vEmAtendmimento
+                                                    HashMap<String, Object> statusOnline = new HashMap<>();
+                                                    statusOnline.put("vOnline", "0");
+                                                    aceitacao.updateChildren(statusOnline);
+                                                    HashMap<String, Object> statusAtendimento = new HashMap<>();
+                                                    statusAtendimento.put("vEmAtendimento", "1");
+                                                    aceitacao.updateChildren(statusAtendimento);
                                                     break;
 
                                                 case DialogInterface.BUTTON_NEGATIVE:
                                                     //Clicou Não
+                                                    FirebaseDatabase db = FirebaseDatabase.getInstance();
+                                                    DatabaseReference aceite = db.getReference("/Localizacoes/Partner/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                                    //Atualizando Status vOnline e vEmAtendmimento
+                                                    HashMap<String, Object> statusOn = new HashMap<>();
+                                                    statusOn.put("vOnline", "1");
+                                                    aceite.updateChildren(statusOn);
+                                                    HashMap<String, Object> statusAt = new HashMap<>();
+                                                    statusAt.put("vEmAtendimento", "0");
+                                                    aceite.updateChildren(statusAt);
                                                     emAtendimento = "0";
                                                     online = "1";
                                                     Toast.makeText(Auxilio.this, "Novamente aguardando chamados...", Toast.LENGTH_SHORT).show();
@@ -377,6 +422,11 @@ private void setPrimeroLogin ()  {
 
                 }else{
                     statusOnOff.setText("Offline");
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference statuses = database.getReference("/Localizacoes/Partner/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    HashMap<String, Object> vOnline = new HashMap<>();
+                    vOnline.put("vOnline", "0");
+                    statuses.updateChildren(vOnline);
                     online = "0";
                     pontoReferencia.setText("");
                     tempoEstimado.setText("");
