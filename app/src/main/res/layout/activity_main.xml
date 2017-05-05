@@ -44,15 +44,6 @@
         android:layout_marginEnd="28dp" />
 
     <Button
-        android:id="@+id/botaoCarro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/botaoLogout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
-        android:text="Ainda Não Sei" />
-
-    <Button
         android:id="@+id/botaoAuxilio"
         android:layout_width="match_parent"
         android:layout_height="70dp"
