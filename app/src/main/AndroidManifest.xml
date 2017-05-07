@@ -27,15 +27,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Auxilio" />
-        <activity android:name=".Login" />
-        <activity android:name=".Registrar_1" />
-        <activity android:name=".Registrar_2" />
-        <activity android:name=".Registrar_2_1" />
-        <activity android:name=".Registrar_3" />
-        <activity android:name=".Perfil" />
-        <activity android:name=".Solagendamento" />
-        <activity android:name=".Main" />
+        <activity android:name=".Auxilio"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Login"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Registrar_1"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Registrar_2"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Registrar_2_1"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Registrar_3"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Perfil"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Solagendamento"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Main"
+            android:screenOrientation="portrait"/>
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
