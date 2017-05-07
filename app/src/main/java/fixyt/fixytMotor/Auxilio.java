@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.Settings;
@@ -216,8 +217,8 @@ private void setPrimeroLogin ()  {
                                     switch (which){
                                         case DialogInterface.BUTTON_POSITIVE:
                                             //Clicou Sim vai para o Waze!
-                                            //String uri = "waze://?ll=" + latMot + "," + longMot +"&z=10";
-                                            //startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+                                            String uri = "waze://?ll=" + latMot + "," + longMot +"&z=10";
+                                            startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
                                             endService.setVisibility(View.VISIBLE);
                                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                                             DatabaseReference aceitacao = database.getReference("EmAtendimento/" + codChamado);
@@ -350,8 +351,8 @@ private void setPrimeroLogin ()  {
                                             switch (which){
                                                 case DialogInterface.BUTTON_POSITIVE:
                                                     //Clicou Sim vai para o Waze!
-                                                    //String uri = "waze://?ll=" + latMot + "," + longMot +"&z=10";
-                                                    //startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+                                                    String uri = "waze://?ll=" + latMot + "," + longMot +"&z=10";
+                                                    startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
                                                     endService.setVisibility(View.VISIBLE);
                                                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                                                     DatabaseReference aceitacao = database.getReference("/Localizacoes/Partner/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
