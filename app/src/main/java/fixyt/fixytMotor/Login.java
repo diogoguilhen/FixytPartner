@@ -103,7 +103,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                             //usuario logou corretamente
                             finish();
                             //inicializar tela principal
-                            startActivity(new Intent(getApplicationContext(), MainPartner.class));
+                            startActivity(new Intent(getApplicationContext(), Main.class));
                             //mostrar mensagem para usuario indicando sucesso
                             Toast.makeText(Login.this, "Logado com sucesso!", Toast.LENGTH_SHORT).show();
                             dialogoProgresso.dismiss();
