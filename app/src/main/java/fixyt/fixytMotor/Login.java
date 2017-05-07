@@ -93,6 +93,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         dialogoProgresso.setMessage("Fazendo Login...");
         dialogoProgresso.show();
 
+
         // Chamando Signin
         firebasAuth.signInWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
