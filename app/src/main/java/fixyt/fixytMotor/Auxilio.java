@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.Settings;
@@ -229,9 +228,9 @@ private void setPrimeroLogin ()  {
 
                                             //Atualizando Status vOnline e vEmAtendmimento
                                             DatabaseReference aceite = database.getReference("/Localizacoes/Partner/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                            HashMap<String, Object> statusOnline = new HashMap<>();
-                                            statusOnline.put("vOnline", "0");
-                                            aceite.updateChildren(statusOnline);
+                                           // HashMap<String, Object> statusOnline = new HashMap<>();
+                                            //statusOnline.put("vOnline", "0");
+                                           // aceite.updateChildren(statusOnline);
                                             HashMap<String, Object> statusAtendimento = new HashMap<>();
                                             statusAtendimento.put("vEmAtendimento", "1");
                                             aceite.updateChildren(statusAtendimento);
@@ -242,9 +241,9 @@ private void setPrimeroLogin ()  {
                                             FirebaseDatabase db = FirebaseDatabase.getInstance();
                                             DatabaseReference aceita = db.getReference("/Localizacoes/Partner/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
                                             //Atualizando Status vOnline e vEmAtendmimento
-                                            HashMap<String, Object> statusOn = new HashMap<>();
-                                            statusOn.put("vOnline", "1");
-                                            aceita.updateChildren(statusOn);
+                                            //HashMap<String, Object> statusOn = new HashMap<>();
+                                            //statusOn.put("vOnline", "1");
+                                            //aceita.updateChildren(statusOn);
                                             HashMap<String, Object> statusAt = new HashMap<>();
                                             statusAt.put("vEmAtendimento", "0");
                                             aceita.updateChildren(statusAt);
