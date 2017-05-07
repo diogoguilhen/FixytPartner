@@ -180,6 +180,11 @@ private void setPrimeroLogin ()  {
             HashMap<String, Object> vOnline = new HashMap<>();
             vOnline.put("vOnline", "1");
             statuses.updateChildren(vOnline);
+            // FINALIZA ATENDIMENTO E SETA ATENDIMENTO = 0
+            HashMap<String, Object> atendimento = new HashMap<>();
+            atendimento.put("vEmAtendimento", "0");
+            statuses.updateChildren(atendimento);
+
 
             if(statusOnOff.isChecked() && vPrimeiraVez == false) {
                 setPrimeroLogin();
@@ -240,6 +245,8 @@ private void setPrimeroLogin ()  {
                                             //Clicou Não
                                             FirebaseDatabase db = FirebaseDatabase.getInstance();
                                             DatabaseReference aceita = db.getReference("/Localizacoes/Partner/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                            DatabaseReference ss = db.getReference("EmAtendimento/" + finalizar);
+
                                             //Atualizando Status vOnline e vEmAtendmimento
                                             //HashMap<String, Object> statusOn = new HashMap<>();
                                             //statusOn.put("vOnline", "1");
@@ -247,6 +254,7 @@ private void setPrimeroLogin ()  {
                                             HashMap<String, Object> statusAt = new HashMap<>();
                                             statusAt.put("vEmAtendimento", "0");
                                             aceita.updateChildren(statusAt);
+                                            ss.setValue(null);
 
                                             emAtendimento = "0";
                                             online = "1";
