@@ -20,13 +20,6 @@
         android:label="FixyT Partner"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PreLogin">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity android:name=".Auxilio"
             android:screenOrientation="portrait"/>
         <activity android:name=".Login"
@@ -44,7 +37,13 @@
         <activity android:name=".Solagendamento"
             android:screenOrientation="portrait"/>
         <activity android:name=".Main"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -58,10 +57,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".MainPartner"
-            android:label="@string/title_activity_main_partner"
-            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

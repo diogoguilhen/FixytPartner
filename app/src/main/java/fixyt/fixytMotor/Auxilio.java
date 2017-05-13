@@ -81,7 +81,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
         firebaseAuth = FirebaseAuth.getInstance();
         if (firebaseAuth.getCurrentUser() == null) {
             finish();
-            startActivity(new Intent(this, PreLogin.class));
+            startActivity(new Intent(this, Login.class));
         }
         try {
             pegarServicos();

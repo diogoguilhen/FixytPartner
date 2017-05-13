@@ -25,7 +25,7 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
 
         if(firebaseAuth.getCurrentUser() == null){
             finish();
-            startActivity(new Intent(this, PreLogin.class));
+            startActivity(new Intent(this, Login.class));
         }
 
         FirebaseUser usuario = firebaseAuth.getCurrentUser();
@@ -58,7 +58,7 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
         if(v == logOut){
             firebaseAuth.signOut();
             finish();
-            startActivity(new Intent(this, PreLogin.class));
+            startActivity(new Intent(this, Login.class));
         }
     }
 }
