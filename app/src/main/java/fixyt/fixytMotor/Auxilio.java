@@ -132,6 +132,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
         buildGoogleApiClient();
 
 
+
         procurarMotoristas();
     }
 
