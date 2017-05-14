@@ -83,14 +83,10 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot alert : dataSnapshot.getChildren()){
-                    System.out.println(Integer.valueOf(alert.child("flProcessado").getValue().toString()));
                     if(Integer.valueOf(alert.child("flProcessado").getValue().toString()) == 0){
                         conjNota.setFlProcessado(alert.child("flProcessado").getValue().toString());
                         conjNota.setNota(alert.child("nota").getValue().toString());
                         notas.add(conjNota);
-                        //System.out.println(notas.get(i).getFlProcessado() + " " + notas.get(i).getNota());
-                        System.out.println(alert.getKey());
-                        System.out.println(alert.child("flProcessado").toString());
                         HashMap<String, Object> processado = new HashMap<>();
                         processado.put("flProcessado", "1");
                         dbReferencecu.child(alert.getKey()).updateChildren(processado);
