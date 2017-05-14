@@ -95,11 +95,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
                         processado.put("flProcessado", "1");
                         dbReferencecu.child(alert.getKey()).updateChildren(processado);
 
-                    } else{
-
                     }
-
-
 
                 }
             }
