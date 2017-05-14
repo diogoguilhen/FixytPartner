@@ -112,7 +112,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
         for(i=0; i<notas.size(); i++){
            notaMedia = notaMedia + notas.get(i);
         }
-        notaMedia = (notaMediaInicial + notaMedia) / (notas.size() + contDivisao);
+        notaMedia = (notaMediaInicial + notaMedia);
         divisorBoladao = notas.size() + contDivisao;
         System.out.println(notaMedia);
         HashMap<String, Object> notaMid = new HashMap<>();
