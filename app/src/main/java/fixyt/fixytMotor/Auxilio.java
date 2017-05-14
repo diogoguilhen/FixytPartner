@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.Rating;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -21,6 +22,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.RatingBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,6 +73,10 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
     private String motoristasIndesejados = " ";
     public boolean vPrimeiraVez = false;
     public boolean servicoGravando = false;
+    private RatingBar ratingMec;
+    private FirebaseDatabase database;
+    private DatabaseReference refBolada;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,10 +103,13 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
             checkLocationPermission();
         }
 
+        ratingMec = (RatingBar) findViewById(R.id.ratingMecanico);
         pontoReferencia = (TextView) findViewById(R.id.pontoRef);
         tempoEstimado = (TextView) findViewById(R.id.tempoETA);
         statusOnOff = (Switch) findViewById(R.id.onOff);
         endService = (Button) findViewById(R.id.botFimAtendimento);
+
+        atualizarRatingMec();
 
         endService.setOnClickListener(this);
 
@@ -125,7 +134,30 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
 
         procurarMotoristas();
     }
-private void setPrimeroLogin ()  {
+
+    private void atualizarRatingMec() {
+        database = FirebaseDatabase.getInstance();
+        userKey = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        refBolada = database.getReference("Partner/" + userKey);
+
+        Query query1 = refBolada.child("/Nota/");
+
+        query1.addListenerForSingleValueEvent(new ValueEventListener() {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Passar os dados para a interface grafica
+                ratingMec.setRating(Float.parseFloat(dataSnapshot.child("NotaMedia").getValue().toString()));
+            }
+
+            public void onCancelled(DatabaseError databaseError) {
+                //Se ocorrer um erro
+                databaseError.getMessage();
+            }
+
+        });
+
+    }
+
+    private void setPrimeroLogin ()  {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference primeiraVezBolada = database.getReference("Localizacoes/Partner");

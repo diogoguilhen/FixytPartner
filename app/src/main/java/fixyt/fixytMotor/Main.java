@@ -25,13 +25,15 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
     private Button atendimentosEmergenciais;
     private FirebaseDatabase database;
     private DatabaseReference dbReference;
+    private DatabaseReference refBolada;
     private DatabaseReference dbReferencecu;
     private String userKey;
+    private Double notaMediaInicial = 0.0;
     private Double notaMedia = 0.0;
     private Double nota = 0.0;
+    private int divisorBoladao = 0;
     private int contDivisao = 0;
-    private ArrayList<Avaliacoes> notas;
-    private Avaliacoes conjNota;
+    private ArrayList<Double> notas;
     private int i = 0;
 
 
@@ -48,7 +50,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
             startActivity(new Intent(this, Login.class));
         }
 
-        salvarPontuacaoMedia();
+
 
         leituraDeNota();
 
@@ -73,7 +75,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
         database = FirebaseDatabase.getInstance();
         dbReference = database.getReference("Avaliacoes/" + userKey);
         notas = new ArrayList<>();
-        conjNota = new Avaliacoes();
 
         dbReferencecu = database.getReference("Avaliacoes/" + userKey);
 
@@ -84,15 +85,15 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot alert : dataSnapshot.getChildren()){
                     if(Integer.valueOf(alert.child("flProcessado").getValue().toString()) == 0){
-                        conjNota.setFlProcessado(alert.child("flProcessado").getValue().toString());
-                        conjNota.setNota(alert.child("nota").getValue().toString());
-                        notas.add(conjNota);
+                        nota = Double.valueOf(alert.child("nota").getValue().toString());
+                        notas.add(nota);
                         HashMap<String, Object> processado = new HashMap<>();
                         processado.put("flProcessado", "1");
                         dbReferencecu.child(alert.getKey()).updateChildren(processado);
-
                     }
-
+                }
+                if(notas.size() > 0){
+                    calcularMedia();
                 }
             }
 
@@ -102,6 +103,25 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
             }
         });
 
+    }
+
+    private void calcularMedia() {
+
+        refBolada = database.getReference("Partner/" + userKey);
+
+        for(i=0; i<notas.size(); i++){
+           notaMedia = notaMedia + notas.get(i);
+        }
+        notaMedia = (notaMediaInicial + notaMedia) / (notas.size() + contDivisao);
+        divisorBoladao = notas.size() + contDivisao;
+        System.out.println(notaMedia);
+        HashMap<String, Object> notaMid = new HashMap<>();
+        notaMid.put("NotaMedia", notaMedia.toString());
+        refBolada.child("Nota").updateChildren(notaMid);
+
+        HashMap<String, Object> fatDiv = new HashMap<>();
+        fatDiv.put("FatorDivisao", String.valueOf(divisorBoladao));
+        refBolada.child("Nota").updateChildren(fatDiv);
     }
 
     private void leituraDeNota() {
@@ -116,9 +136,10 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Passar os dados para a interface grafica
-                notaMedia = Double.parseDouble(dataSnapshot.child("NotaMedia").getValue().toString());
+                notaMediaInicial = Double.parseDouble(dataSnapshot.child("NotaMedia").getValue().toString());
                 contDivisao = Integer.parseInt(dataSnapshot.child("FatorDivisao").getValue().toString());
-                System.out.println(notaMedia + " " + contDivisao);
+                System.out.println(notaMediaInicial + " " + contDivisao);
+                salvarPontuacaoMedia();
             }
 
             public void onCancelled(DatabaseError databaseError) {
