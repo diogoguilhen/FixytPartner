@@ -76,8 +76,8 @@
         android:layout_height="200dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="280dp"
-        android:background="@color/common_google_signin_btn_text_dark_default"
+        android:layout_below="@+id/linearLayout2"
+        android:background="@android:drawable/editbox_background"
         android:orientation="vertical">
 
 
@@ -87,9 +87,10 @@
         android:id="@+id/linearCheckCarroMoto"
         android:layout_width="190dp"
         android:layout_height="200dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="280dp"
-        android:background="@color/common_google_signin_btn_text_dark_default"
+        android:layout_below="@+id/linearLayout2"
+        android:background="@android:drawable/editbox_background"
         android:orientation="vertical">
 
 
@@ -98,11 +99,13 @@
 
     <Button
         android:id="@+id/botProximo3"
-        android:layout_width="150dp"
+        style="@android:style/Widget.Holo.Button.Inset"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayout2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="220dp"
+        android:backgroundTint="@color/colorPrimaryDark"
         android:text="Próximo" />
 
 </RelativeLayout>

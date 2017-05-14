@@ -24,7 +24,7 @@ public class Solagendamento extends AppCompatActivity implements View.OnClickLis
 
         if(firebaseAuth.getCurrentUser() == null){
             finish();
-            startActivity(new Intent(this, PreLogin.class));
+            startActivity(new Intent(this, Login.class));
         }
 
         logOut = (Button) findViewById(R.id.botaoLogout);
@@ -41,7 +41,7 @@ public class Solagendamento extends AppCompatActivity implements View.OnClickLis
         if(v == logOut){
             firebaseAuth.signOut();
             finish();
-            startActivity(new Intent(this, PreLogin.class));
+            startActivity(new Intent(this, Login.class));
         }
         if(v == perfilUser){
             finish();
