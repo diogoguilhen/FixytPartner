@@ -1,10 +1,11 @@
 package fixyt.fixytMotor;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,6 +25,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
     private Button atendimentosEmergenciais;
     private FirebaseDatabase database;
     private DatabaseReference dbReference;
+    private DatabaseReference dbReferencecu;
     private String userKey;
     private Double notaMedia = 0.0;
     private Double nota = 0.0;
@@ -73,22 +75,25 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
         notas = new ArrayList<>();
         conjNota = new Avaliacoes();
 
+        dbReferencecu = database.getReference("Avaliacoes/" + userKey);
+
         Query queryPont = dbReference;
 
         queryPont.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot alert : dataSnapshot.getChildren()){
-                    if(alert.child("flProcessado").getValue().toString() == "0"){
+                    System.out.println(Integer.valueOf(alert.child("flProcessado").getValue().toString()));
+                    if(Integer.valueOf(alert.child("flProcessado").getValue().toString()) == 0){
                         conjNota.setFlProcessado(alert.child("flProcessado").getValue().toString());
                         conjNota.setNota(alert.child("nota").getValue().toString());
                         notas.add(conjNota);
                         //System.out.println(notas.get(i).getFlProcessado() + " " + notas.get(i).getNota());
-                        System.out.println(dataSnapshot.getKey().toString());
+                        System.out.println(alert.getKey());
                         System.out.println(alert.child("flProcessado").toString());
                         HashMap<String, Object> processado = new HashMap<>();
-                        processado.put("flProcessado", "0");
-                        dbReference.child(alert.child("flProcessado").toString()).updateChildren(processado);
+                        processado.put("flProcessado", "1");
+                        dbReferencecu.child(alert.getKey()).updateChildren(processado);
 
                     } else{
 
