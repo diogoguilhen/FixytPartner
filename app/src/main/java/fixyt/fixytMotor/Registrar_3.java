@@ -10,13 +10,11 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -207,5 +205,34 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
 
     }
 
+    public Registrar_3() {
+        super();
+    }
 
+    public String FatorDivisao;
+    public String NotaMedia;
+
+    public Registrar_3(String FatorDivisao2, String NotaMedia2) {
+
+        this.FatorDivisao = FatorDivisao2;
+        this.NotaMedia = NotaMedia2;
+
+
+    }
+
+    public String getFatorDivisao() {
+        return FatorDivisao;
+    }
+
+    public void setFatorDivisao(String fatorDivisao) {
+        FatorDivisao = fatorDivisao;
+    }
+
+    public String getNotaMedia() {
+        return NotaMedia;
+    }
+
+    public void setNotaMedia(String notaMedia) {
+        NotaMedia = notaMedia;
+    }
 }
