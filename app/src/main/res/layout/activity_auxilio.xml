@@ -16,7 +16,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="@drawable/principal_back"
+        android:background="@drawable/back_tela"
         android:scaleType="centerCrop"
         android:visibility="visible"
         app:srcCompat="@drawable/back_tela" />
