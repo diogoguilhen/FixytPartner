@@ -145,7 +145,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Passar os dados para a interface grafica
-                ratingMec.setRating(Float.parseFloat(dataSnapshot.child("NotaMedia").getValue().toString()) / Float.parseFloat(dataSnapshot.child("FatorDivisao").getValue().toString()));
+                ratingMec.setRating(Float.parseFloat(dataSnapshot.child("notaMedia").getValue().toString()) / Float.parseFloat(dataSnapshot.child("fatorDivisao").getValue().toString()));
             }
 
             public void onCancelled(DatabaseError databaseError) {
