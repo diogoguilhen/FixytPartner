@@ -79,6 +79,28 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
     private int flagzinha=0;
 
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference pausado = database.getReference("Localizacoes/Partner");
+
+        userKey = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String key = userKey;
+
+        //Vonline
+        HashMap<String, Object> online = new HashMap<>();
+        online.put("vOnline",  "0");
+        pausado.child(key).updateChildren(online);
+
+        //vEmAtendimento
+        HashMap<String, Object> atendimento = new HashMap<>();
+        atendimento.put("vEmAtendimento",  "0");
+        pausado.child(key).updateChildren(atendimento);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
