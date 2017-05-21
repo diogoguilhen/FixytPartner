@@ -154,23 +154,11 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference criacaoPartner = database.getReference("Partner");
 
-
-       // String json = new Gson().toJson(arrayList);
-
         String listaDeItens = new String (arrayList.toString());
 
         userKey =  firebasAuth.getCurrentUser().getUid().toString();    //getUser().getUid().toString();
 
-   //     Gson gson = new GsonBuilder().create();
-
-    //    JsonArray myCustomArray = gson.toJsonTree(arrayList).getAsJsonArray();
-
-     //   JsonObject jsonObject = new JsonObject();
-
-      //  jsonObject.add("Diferenciado", myCustomArray);
-
         String key = userKey;
-    //    criacaoPartner.child(key).child(cadastroMecanico.getPerfilTipo().toString()).setValue(jsonObject.toString());
 
 
         //PerfilTipo
@@ -178,12 +166,6 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
         perfilTipo.put("perfilTipo",  cadastroMecanico.getPerfilTipo());
         criacaoPartner.child(key).updateChildren(perfilTipo);
 
-        /////// METODO ANTIGO
-
-      //  //PerfilTipo
-      //  HashMap<String, Object> servicos = new HashMap<>();
-      //  servicos.put("servicos",  json.toString());
-      //  criacaoPartner.child(key).updateChildren(servicos);
 
 
         //PerfilTipo
@@ -191,11 +173,12 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
         servicos.put("servicos",  listaDeItens.toString());
         criacaoPartner.child(key).updateChildren(servicos);
 
-        CadastroMecanico diogoMuitoFeioso = new CadastroMecanico("1", "5.0");
-        criacaoPartner.child(key + "/Nota").setValue(diogoMuitoFeioso);
+        CadastroMecanico diogoMuitoLindo = new CadastroMecanico("1", "5.0");
+
+        criacaoPartner.child(key + "/Nota").setValue(diogoMuitoLindo);
 
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference primeiraVezBolada = database.getReference("Localizacoes/Partner");
+        DatabaseReference primeiraVezBolada = db.getReference("Localizacoes/Partner");
 
         userKey = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String key2 = userKey;
@@ -206,12 +189,10 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
         String vServico = listaDeItens.toString() ;
         String vEmAtendimento = "0";
 
-        CadastroAuxilio diogoFeiosao = new CadastroAuxilio(vLatitude, vLongitude, vOnline, vServico, vEmAtendimento  );
+        CadastroAuxilio diogoLindao = new CadastroAuxilio(vLatitude, vLongitude, vOnline, vServico, vEmAtendimento  );
 
-        primeiraVezBolada.child(key2).setValue(diogoFeiosao);
+        primeiraVezBolada.child(key2).setValue(diogoLindao);
 
-
-        //dialogoProgresso.setMessage("Perfil Selecionado: " + cadastroMecanico.getPerfilTipo() + "\n" + "Servicos: " + arrayList.get(1) + ", " + arrayList.get(2));
 
         dialogoProgresso.dismiss();
 
@@ -223,34 +204,4 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
 
     }
 
-    public Registrar_3() {
-        super();
-    }
-
-    public String FatorDivisao;
-    public String NotaMedia;
-
-    public Registrar_3(String FatorDivisao2, String NotaMedia2) {
-
-        this.FatorDivisao = FatorDivisao2;
-        this.NotaMedia = NotaMedia2;
-
-
-    }
-
-    public String getFatorDivisao() {
-        return FatorDivisao;
-    }
-
-    public void setFatorDivisao(String fatorDivisao) {
-        FatorDivisao = fatorDivisao;
-    }
-
-    public String getNotaMedia() {
-        return NotaMedia;
-    }
-
-    public void setNotaMedia(String notaMedia) {
-        NotaMedia = notaMedia;
-    }
 }
