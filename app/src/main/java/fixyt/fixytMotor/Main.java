@@ -116,11 +116,11 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
         divisorBoladao = notas.size() + contDivisao;
         System.out.println(notaMedia);
         HashMap<String, Object> notaMid = new HashMap<>();
-        notaMid.put("NotaMedia", notaMedia.toString());
+        notaMid.put("notaMedia", notaMedia.toString());
         refBolada.child("Nota").updateChildren(notaMid);
 
         HashMap<String, Object> fatDiv = new HashMap<>();
-        fatDiv.put("FatorDivisao", String.valueOf(divisorBoladao));
+        fatDiv.put("fatorDivisao", String.valueOf(divisorBoladao));
         refBolada.child("Nota").updateChildren(fatDiv);
     }
 
@@ -136,8 +136,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Passar os dados para a interface grafica
-                notaMediaInicial = Double.parseDouble(dataSnapshot.child("NotaMedia").getValue().toString());
-                contDivisao = Integer.parseInt(dataSnapshot.child("FatorDivisao").getValue().toString());
+                notaMediaInicial = Double.parseDouble(dataSnapshot.child("notaMedia").getValue().toString());
+                contDivisao = Integer.parseInt(dataSnapshot.child("fatorDivisao").getValue().toString());
                 System.out.println(notaMediaInicial + " " + contDivisao);
                 salvarPontuacaoMedia();
             }
