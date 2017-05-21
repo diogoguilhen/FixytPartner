@@ -324,6 +324,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                                             }
                                             catch ( ActivityNotFoundException ex  )
                                             {
+                                                Toast.makeText(Auxilio.this, "Não encontramos o WAZE instalado! Redirecionado para Google Play Store...", Toast.LENGTH_SHORT).show();
                                                 Intent intent =
                                                         new Intent( Intent.ACTION_VIEW, Uri.parse( "market://details?id=com.waze" ) );
                                                 startActivity(intent);
@@ -471,6 +472,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                                                     }
                                                     catch ( ActivityNotFoundException ex  )
                                                     {
+                                                        Toast.makeText(Auxilio.this, "Não encontramos o WAZE instalado! Redirecionado para Google Play Store...", Toast.LENGTH_SHORT).show();
                                                         Intent intent =
                                                                 new Intent( Intent.ACTION_VIEW, Uri.parse( "market://details?id=com.waze" ) );
                                                         startActivity(intent);
