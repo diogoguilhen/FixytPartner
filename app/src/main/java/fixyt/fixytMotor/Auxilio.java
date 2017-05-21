@@ -75,6 +75,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
     private RatingBar ratingMec;
     private FirebaseDatabase database;
     private DatabaseReference refBolada;
+    private int flagzinha=0;
 
 
     @Override
@@ -133,6 +134,61 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
 
 
         procurarMotoristas();
+    }
+
+    private void listenerCancelaMotorista() {
+
+        DatabaseReference servicos = database.getReference();
+
+        Query query3 = servicos.child("EmAtendimento/" + codChamado);
+
+        query3.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                if(flagzinha == 0){
+                    endService.setVisibility(View.INVISIBLE);
+                    FirebaseDatabase db = FirebaseDatabase.getInstance();
+                    DatabaseReference aceita = db.getReference("/Localizacoes/Partner/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+
+                    //Atualizando Status vOnline e vEmAtendmimento
+                    HashMap<String, Object> statusAt = new HashMap<>();
+                    statusAt.put("vEmAtendimento", "0");
+                    aceita.updateChildren(statusAt);
+
+                    emAtendimento = "0";
+                    online = "1";
+                    Toast.makeText(Auxilio.this, "Novamente aguardando chamados...", Toast.LENGTH_SHORT).show();
+                    pontoReferencia.setText("");
+                    tempoEstimado.setText("");
+                    motoristasIndesejados = motoristasIndesejados + " " + finalizar;
+                    procurarMotoristas();
+                    Toast.makeText(Auxilio.this, "Motorista cancelou o chamado!", Toast.LENGTH_SHORT).show();
+                    flagzinha++;
+                }
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void atualizarRatingMec() {
@@ -246,6 +302,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                         if(snapshot.getKey().toString().contains(FirebaseAuth.getInstance().getCurrentUser().getUid()) && emAtendimento == "0" && !(motoristasIndesejados.contains(snapshot.getKey().toString()))){
                             online = "0";
                             emAtendimento = "1";
+                            flagzinha = 0;
                             finalizar = snapshot.getKey().toString();
                             codChamado = snapshot.getKey().toString();
                             pontoReferencia.setText("Ponto de Referencia:" + snapshot.child("pontoDeReferencia").getValue().toString());
@@ -262,6 +319,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                                             String uri = "waze://?ll=" + latMot + "," + longMot +"&z=10";
                                             startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
                                             endService.setVisibility(View.VISIBLE);
+
                                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                                             DatabaseReference aceitacao = database.getReference("EmAtendimento/" + codChamado);
 
@@ -282,6 +340,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                                             HashMap<String, Object> statusAtendimento = new HashMap<>();
                                             statusAtendimento.put("vEmAtendimento", "1");
                                             aceite.updateChildren(statusAtendimento);
+                                            listenerCancelaMotorista();
                                             break;
 
                                         case DialogInterface.BUTTON_NEGATIVE:
@@ -327,7 +386,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                 }
 
                 @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                public void onChildRemoved(DataSnapshot snapshot) {
 
                 }
 
@@ -381,6 +440,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                                 if(snapshot.getKey().toString().contains(FirebaseAuth.getInstance().getCurrentUser().getUid()) && emAtendimento == "0" && !(motoristasIndesejados.contains(finalizar))){
                                     online = "0";
                                     emAtendimento = "1";
+                                    flagzinha = 0;
                                     finalizar = snapshot.getKey().toString();
                                     codChamado = snapshot.getKey().toString();
                                     pontoReferencia.setText("Ponto de Referencia:" + snapshot.child("pontoDeReferencia").getValue().toString());
@@ -414,6 +474,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                                                     HashMap<String, Object> statusAtendimento = new HashMap<>();
                                                     statusAtendimento.put("vEmAtendimento", "1");
                                                     aceitacao.updateChildren(statusAtendimento);
+                                                    listenerCancelaMotorista();
                                                     break;
 
                                                 case DialogInterface.BUTTON_NEGATIVE:
