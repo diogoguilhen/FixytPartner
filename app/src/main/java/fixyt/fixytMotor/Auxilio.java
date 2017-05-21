@@ -165,7 +165,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
 
         userKey = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String key = userKey;
-
+/*
         String vLatitude = "" ;
         String vLongitude = "";
         String vOnline = "1";
@@ -174,7 +174,17 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
 
         CadastroAuxilio diogoLindao = new CadastroAuxilio(vLatitude, vLongitude, vOnline, vServico, vEmAtendimento  );
 
-        primeiraVezBolada.child(key).setValue(diogoLindao);
+        primeiraVezBolada.child(key).setValue(diogoLindao);*/
+
+        //Vonline
+        HashMap<String, Object> online = new HashMap<>();
+        online.put("vOnline",  "1");
+        primeiraVezBolada.child(key).updateChildren(online);
+
+        //vEmAtendimento
+        HashMap<String, Object> atendimento = new HashMap<>();
+        atendimento.put("vEmAtendimento",  "0");
+        primeiraVezBolada.child(key).updateChildren(atendimento);
 
         vPrimeiraVez = true;
 

@@ -191,6 +191,24 @@ public class Registrar_3 extends AppCompatActivity implements View.OnClickListen
         servicos.put("servicos",  listaDeItens.toString());
         criacaoPartner.child(key).updateChildren(servicos);
 
+        CadastroMecanico diogoMuitoFeioso = new CadastroMecanico("1", "5.0");
+        criacaoPartner.child(key + "/Nota").setValue(diogoMuitoFeioso);
+
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        DatabaseReference primeiraVezBolada = database.getReference("Localizacoes/Partner");
+
+        userKey = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String key2 = userKey;
+
+        String vLatitude = "" ;
+        String vLongitude = "";
+        String vOnline = "0";
+        String vServico = listaDeItens.toString() ;
+        String vEmAtendimento = "0";
+
+        CadastroAuxilio diogoFeiosao = new CadastroAuxilio(vLatitude, vLongitude, vOnline, vServico, vEmAtendimento  );
+
+        primeiraVezBolada.child(key2).setValue(diogoFeiosao);
 
 
         //dialogoProgresso.setMessage("Perfil Selecionado: " + cadastroMecanico.getPerfilTipo() + "\n" + "Servicos: " + arrayList.get(1) + ", " + arrayList.get(2));

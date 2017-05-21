@@ -37,9 +37,18 @@ public class CadastroMecanico implements Parcelable{
     private String vServico;
     private String vEmAtendimento;
 
+    //Variaveis de Nota
+    private String FatorDivisao;
+    private String NotaMedia;
+
 
     public CadastroMecanico() {
         super();
+    }
+
+    public CadastroMecanico(String FatorDivisao, String NotaMedia) {
+        this.FatorDivisao = FatorDivisao;
+        this.NotaMedia = NotaMedia;
     }
 
     // Utilizando objetos como parcelável
@@ -355,4 +364,19 @@ public class CadastroMecanico implements Parcelable{
         this.dataNascimento = dataNascimento;
     }
 
+    public String getFatorDivisao() {
+        return FatorDivisao;
+    }
+
+    public void setFatorDivisao(String FatorDivisao) {
+        this.FatorDivisao = FatorDivisao;
+    }
+
+    public String getNotaMedia() {
+        return NotaMedia;
+    }
+
+    public void setNotaMedia(String NotaMedia) {
+        this.NotaMedia = NotaMedia;
+    }
 }
