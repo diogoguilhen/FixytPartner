@@ -91,12 +91,12 @@
         style="@android:style/Widget.Holo.RatingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView3"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
         android:clickable="false"
         android:isIndicator="true"
-        android:numStars="5" />
+        android:numStars="5"
+        android:layout_above="@+id/botFimAtendimento"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="31dp" />
 
     <TextView
         android:id="@+id/textView3"
@@ -106,9 +106,9 @@
         android:textAllCaps="false"
         android:textColor="@android:color/holo_blue_bright"
         android:textSize="18sp"
+        android:layout_marginBottom="99dp"
         android:layout_above="@+id/botFimAtendimento"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="147dp" />
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
