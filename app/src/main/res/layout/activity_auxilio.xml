@@ -91,22 +91,24 @@
         style="@android:style/Widget.Holo.RatingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/botFimAtendimento"
+        android:layout_alignTop="@+id/textView3"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginTop="25dp"
         android:clickable="false"
+        android:isIndicator="true"
         android:numStars="5" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/ratingMecanico"
-        android:layout_centerHorizontal="true"
         android:text="Sua Pontuação"
         android:textAllCaps="false"
         android:textColor="@android:color/holo_blue_bright"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_above="@+id/botFimAtendimento"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="147dp" />
 
 
 </RelativeLayout>
