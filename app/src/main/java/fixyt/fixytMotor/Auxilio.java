@@ -2,6 +2,7 @@ package fixyt.fixytMotor;
 
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -316,8 +317,17 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                                     switch (which){
                                         case DialogInterface.BUTTON_POSITIVE:
                                             //Clicou Sim vai para o Waze!
-                                            String uri = "waze://?ll=" + latMot + "," + longMot +"&z=10";
-                                            startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+                                            try
+                                            {
+                                                String uri = "waze://?ll=" + latMot + "," + longMot +"&z=10";
+                                                startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+                                            }
+                                            catch ( ActivityNotFoundException ex  )
+                                            {
+                                                Intent intent =
+                                                        new Intent( Intent.ACTION_VIEW, Uri.parse( "market://details?id=com.waze" ) );
+                                                startActivity(intent);
+                                            }
                                             endService.setVisibility(View.VISIBLE);
 
                                             FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -454,8 +464,17 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                                             switch (which){
                                                 case DialogInterface.BUTTON_POSITIVE:
                                                     //Clicou Sim vai para o Waze!
-                                                    String uri = "waze://?ll=" + latMot + "," + longMot +"&z=10";
-                                                    startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+                                                    try
+                                                    {
+                                                        String uri = "waze://?ll=" + latMot + "," + longMot +"&z=10";
+                                                        startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+                                                    }
+                                                    catch ( ActivityNotFoundException ex  )
+                                                    {
+                                                        Intent intent =
+                                                                new Intent( Intent.ACTION_VIEW, Uri.parse( "market://details?id=com.waze" ) );
+                                                        startActivity(intent);
+                                                    }
                                                     endService.setVisibility(View.VISIBLE);
                                                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                                                     DatabaseReference aceitacao = database.getReference("/Localizacoes/Partner/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
