@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.media.Rating;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -317,6 +316,7 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
                                     .setNegativeButton("Recusar Chamado", dialogClickListener).show();
 
                         }
+
 
                     }
                 }
@@ -629,11 +629,11 @@ public class Auxilio extends FragmentActivity implements  View.OnClickListener,
         //CadastroAuxilio diogoLindo = new CadastroAuxilio(vLatitude, vLongitude, vOnline, vServico, vEmAtendimento);
         //Latitude
         HashMap<String, Object> latitude = new HashMap<>();
-        latitude.put("vLatitude", location.getLatitude());
+        latitude.put("vLatitude", String.valueOf(location.getLatitude()) );
         localizacao.child(key).updateChildren(latitude);
         //Longitude
         HashMap<String, Object> longitude = new HashMap<>();
-        longitude.put("vLongitude", location.getLongitude());
+        longitude.put("vLongitude", String.valueOf(location.getLongitude()));
         localizacao.child(key).updateChildren(longitude);
         //localizacao.child(key).setValue(diogoLindo);
         }
